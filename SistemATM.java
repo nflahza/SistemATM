@@ -2,7 +2,9 @@ import java.util.Scanner;
 
 public class SistemATM {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Sistem ATM");
+        Scanner input = new Scanner(System.in);
+        int bankIndex = input.nextInt();
+        System.out.println("Sistem ATM | Bank ID: " + bankIndex);
+        input.close();
     }
 }
