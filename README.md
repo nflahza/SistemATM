@@ -1,6 +1,9 @@
 # SistemATM
 Tugas Besar Algoritma Pemprograman SE-49-04 Kelompok 13
 
+# Team
+TBA
+
 # TODO
 - [ ] Pendataan nasabah dan bank. Setiap nasabah memiliki informasi seperti nomor rekening, saldo, dan riwayat transaksi, no kartu, PIN dll. Sedangkan pada informasi bank terdiri atas nama bank, cabang, alamat dll.
 - [ ] Pencarian data nasabah berdasarkan No kartu/rekening.

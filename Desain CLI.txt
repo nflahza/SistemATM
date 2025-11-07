@@ -1,0 +1,106 @@
+┌ ┐ └ ┘
+─ │
+├ ┤ ┬ ┴ ┼
+
+
+##
+
+MENU SISTEM ATM v1.0
+
+##start menu
+
+ 1  LOGIN ADMIN
+ 0  KELUAR DARI SISTEM
+
+MASUKKAN PIN ATM → [INPUT]
+
+##jika gagal:
+
+PIN SALAH! SILAKAN COBA LAGI. ANDA HANYA MEMILIKI [N] KALI KESEMPATAN.
+
+REKENING TERBLOKIR!
+Hubungi Customer Service pada (+62) 0878-4648-3778
+
+##jika berhasil:
+
+SELAMAT DATANG, [NAMA NASABAH]!
+
+ 1  TRANSFER                     GANTI PIN  4 
+ 2  TARIK TUNAI          RIWAYAT TRANSAKSI  5 
+ 3  CEK SALDO                       KELUAR  0 
+
+┌────────────────────────────────────────────┐
+│               MENU SISTEM ATM              │
+└────────────────────────────────────────────┘
+
+PILIHAN ANDA → [INPUT]
+
+##menu 1
+ 
+ 1  BATAL
+ 0  KELUAR DARI SISTEM
+
+MASUKKAN NOMOR REKENING TUJUAN → [INPUT]
+MASUKKAN JUMLAH TRANSFER → [INPUT]
+
+TRANSFER BERHASIL! SALDO ANDA SEKARANG: [SALDO]
+
+TRANSFER GAGAL! SALDO ANDA TIDAK CUKUP. SALDO ANDA: [SALDO]
+
+##menu 2
+
+ 1  BATAL
+ 0  KELUAR DARI SISTEM
+
+MASUKKAN JUMLAH TARIK TUNAI → [INPUT]
+
+TARIK TUNAI BERHASIL! SALDO ANDA SEKARANG: [SALDO]
+
+TARIK TUNAI GAGAL! SALDO ANDA TIDAK CUKUP. SALDO ANDA: [SALDO]
+
+##menu 3
+
+SALDO ANDA SEKARANG: [SALDO]
+
+##menu 4
+
+ 1  BATAL
+ 0  KELUAR DARI SISTEM
+
+KETIK PIN BARU ANDA → [INPUT]
+KONFIRMASI PIN BARU ANDA → [INPUT]
+
+##menu 5
+
+ 1  BATAL
+ 0  KELUAR DARI SISTEM
+ 
+Transaksi #1:
+Nominal:
+Bank:
+Jenis Pembayaran: TRANSFER/TUNAI/TOP UP
+Nasabah (jika bukan tunai):
+
+##Panel ADMIN
+
+MENU ADMIN v1.0
+
+##
+
+username: admin
+password: admin1234
+
+##
+
+ 1 EDIT DATA NASABAH
+ 2 LOGOUT
+ 0 KELUAR DARI SISTEM
+
+##menu 1
+
+MASUKKAN NOMOR REKENING NASABAH → 
+
+Data [NAMA]
+ 1  EDIT SALDO                  GANTI PIN  4 
+ 2  RIWAYAT TRANSAKSI              LOGOUT  5 
+ 3  GANTI PIN                      KELUAR  0 
