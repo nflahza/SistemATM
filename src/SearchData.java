@@ -1,7 +1,7 @@
 package src;
 
 public class SearchData {
-    public static Nasabah cariNasabahByKartu(int nomorKartu) {
+    public static Nasabah cariNasabahByKartu(long nomorKartu) {
         for (Nasabah nasabah : SistemATM.dataNasabah) {
             if (nasabah.getNomorKartu() == nomorKartu) {
                 return nasabah;
@@ -9,7 +9,7 @@ public class SearchData {
         }
         return null; // Jika tidak ditemukan
     }
-    public static Nasabah cariNasabahByRekening(int nomorRekening) {
+    public static Nasabah cariNasabahByRekening(long nomorRekening) {
         for (Nasabah nasabah : SistemATM.dataNasabah) {
             if (nasabah.getNomorRekening() == nomorRekening) {
                 return nasabah;

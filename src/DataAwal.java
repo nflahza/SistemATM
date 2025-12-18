@@ -7,10 +7,22 @@ public class DataAwal {
         Bank Mandiri = new Bank("Bank Mandiri", "Bandung", "Jl. Asia Afrika No.10, Bandung");
         Bank BNI = new Bank("Bank Negara Indonesia", "Surabaya", "Jl. Basuki Rahmat No.5, Surabaya");
 
-        Nasabah Anto = new Nasabah("Anto", 123456789, BCA, 5000000, 111222333, 1234);
-        Nasabah Budi = new Nasabah("Budi", 987654321, Mandiri, 3000000, 444555666, 5678);
-        Nasabah Citra = new Nasabah("Citra", 555666777, BNI, 7000000, 777888999, 9999);
-        SistemATM.dataBank = new Bank[]{BCA, Mandiri, BNI};
-        SistemATM.dataNasabah = new Nasabah[]{Anto, Budi, Citra};
+        Nasabah Anto = new Nasabah("Anto", 87846483778L, BCA, 5000000, 1111222233334444L, 123456, false);
+        Nasabah Budi = new Nasabah("Budi", 987654321012L, Mandiri, 3000000, 4445556666667777L, 567890, false);
+        Nasabah Citra = new Nasabah("Citra", 555666777012L, BNI, 7000000, 1234567890123456L, 999999, false);
+        SistemATM.dataBank[0] = BCA;
+        SistemATM.dataBank[1] = Mandiri;
+        SistemATM.dataBank[2] = BNI;
+        SistemATM.dataNasabah[0] = Anto;
+        SistemATM.dataNasabah[1] = Budi;
+        SistemATM.dataNasabah[2] = Citra;
+
+
+        Anto.tambahTransaksi(new InfoTransaksi(1000000, BCA, "Setor Tunai", null, 10, 1, 2024));
+        Anto.tambahTransaksi(new InfoTransaksi(500000, Mandiri, "Transfer", Budi, 12, 12, 2024));
+        Budi.tambahTransaksi(new InfoTransaksi(500000, Mandiri, "Transfer", Anto, 12, 10, 2024));
+        Budi.tambahTransaksi(new InfoTransaksi(300000, Mandiri, "Tarik Tunai", null, 13, 6, 2024));
+        Citra.tambahTransaksi(new InfoTransaksi(1500000, BNI, "Setor Tunai", null, 14, 5, 2024));
+        Citra.tambahTransaksi(new InfoTransaksi(2000000, BNI, "Tarik Tunai", null, 15, 10, 2024));
     }
 }

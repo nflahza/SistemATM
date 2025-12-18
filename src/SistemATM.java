@@ -3,22 +3,63 @@ package src;
 import java.util.Scanner;
 
 public class SistemATM {
-    public static Nasabah[] dataNasabah;
-    public static Bank[] dataBank;
+    public static Nasabah[] dataNasabah = new Nasabah[1000];
+    public static Bank[] dataBank = new Bank[1000];
 
     public final static String BLUE_BACKGROUND = "\u001B[44m";
     public final static String GREEN_BACKGROUND = "\u001B[42m";
-    // public final static String WHITE_BACKGROUND = "\u001B[47m";
+    public final static String YELLOW_BACKGROUND = "\u001B[43m";
+    public final static String RED_BACKGROUND = "\u001B[41m";
     public final static String RESET = "\u001B[0m";
 
-    public static void startMenuATM() {
+    public static int tanggal = 16;
+    public static int bulan = 12;
+    public static int tahun = 2025;
+    public static String tanggalString = tanggalToString(tanggal, bulan, tahun);
+
+    public static void startMenuATM(Scanner input) {
+        tanggalString = tanggalToString(tanggal, bulan, tahun);
         System.out.println(BLUE_BACKGROUND + " ┌────────────────────────────────────────────┐ " + RESET);
         System.out.println(BLUE_BACKGROUND + " │               MENU SISTEM ATM              │ " + RESET);
         System.out.println(BLUE_BACKGROUND + " └────────────────────────────────────────────┘ " + RESET + "\n");
-        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " LOGIN ADMIN " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " LOGIN PENGGUNA " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 0 " + BLUE_BACKGROUND + " KELUAR DARI SISTEM " + RESET);
-        System.out.print(BLUE_BACKGROUND + "PILIHAN ANDA -> " + RESET + " ");
+        System.out.println(BLUE_BACKGROUND + "Tanggal: " + tanggalString + RESET + "\n");
+        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " Login Admin " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " Login Pengguna " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 0 " + BLUE_BACKGROUND + " Keluar Dari Sistem " + RESET);
+        System.out.print("\nPilihan Anda -> ");
+        
+        int pilihanStart = -1;
+        
+        
+        try {
+            pilihanStart = input.nextInt();
+            
+        } catch (Exception e) {
+            System.out.println(RED_BACKGROUND + "Terjadi kesalahan, silahkan coba lagi " + RESET);
+            startMenuATM(new Scanner(System.in));
+            return;
+        }
+        
+        System.out.println("");
+        switch (pilihanStart) {
+            case 1:
+                System.out.println(BLUE_BACKGROUND + "Login Admin" + RESET);
+                adminLogin(input);
+                break;
+            case 2:
+                System.out.println(BLUE_BACKGROUND + "Login Pengguna" + RESET);
+                userLogin(input);
+                break;
+            case 0:
+                System.out.println(BLUE_BACKGROUND + "Terima Kasih telah menggunakan Sistem ATM kami " + RESET);
+                input.close();
+                System.exit(0);
+                return;
+            default:
+                System.out.println(RED_BACKGROUND + "Pilihan Tidak Valid, Silahkan Coba Lagi " + RESET);
+                startMenuATM(input);
+                break;
+        }
     }
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -26,233 +67,143 @@ public class SistemATM {
         // Inisialisai data sampel
         DataAwal.initialize();
         
-        startMenuATM();
-        int pilihanStart = -1;
+        startMenuATM(input);
         
-        // System.out.print(RESET);
-        // System.out.println(pilihanStart);
-        while (pilihanStart < 0 || pilihanStart > 2) {
-            try {
-                pilihanStart = input.nextInt();
-            } catch (Exception e) {
-                System.out.println(BLUE_BACKGROUND + "PILIHAN TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-                input.nextLine();
-            }
-            switch (pilihanStart) {
-                case 1:
-                    adminLogin(input);
-                    break;
-                case 2:
-                    System.out.print(BLUE_BACKGROUND + "Masukkan Nomor Kartu: " + RESET);
-                    int nomorKartu = input.nextInt();
-                    System.out.print(BLUE_BACKGROUND + "Masukkan PIN: " + RESET);
-                    int pin = input.nextInt();
-                    break;
-                case 0:
-                    System.out.println(BLUE_BACKGROUND + " TERIMA KASIH TELAH MENGGUNAKAN SISTEM ATM KAMI " + RESET);
-                    System.exit(0);
-                    break;
-                }
-        }
-        input.close();
     }
     public static void userLogin(Scanner input) {
-        int nomorKartu = 0;
-        int pin = 0;
+        long nomorKartu;
+        int pin;
+        int attempts = 0;
         try {
-            System.out.print(BLUE_BACKGROUND + "Masukkan Nomor Kartu: " + RESET);
-            nomorKartu = input.nextInt();
-            System.out.print(BLUE_BACKGROUND + "Masukkan PIN: " + RESET);
+            System.out.print("Masukkan Nomor Kartu: ");
+            
+            try {
+                nomorKartu = input.nextLong();
+            } catch (Exception e) {
+                System.out.println(RED_BACKGROUND + "Nomor Kartu Tidak Valid, Silahkan Coba Lagi " + RESET);
+                startMenuATM(new Scanner(System.in));
+                return;
+            }
+            if (nomorKartu == -1) {
+                startMenuATM(new Scanner(System.in));
+                return;
+            }
+            // nomorKartu = input.nextInt();
+
+            Nasabah nasabah = SearchData.cariNasabahByKartu(nomorKartu);
+            
+            while (nasabah == null) {
+                System.out.println(RED_BACKGROUND + "Nomor Kartu Tidak Ditemukan, Silahkan Coba Lagi " + RESET);
+                System.out.print("Masukkan Nomor Kartu: ");
+
+                nomorKartu = input.nextLong();
+                if (nomorKartu == -1) {
+                    startMenuATM(new Scanner(System.in));
+                    return;
+                }
+                nasabah = SearchData.cariNasabahByKartu(nomorKartu);
+            }
+
+            System.out.print("Masukkan PIN: ");
             pin = input.nextInt();
+
+
+            while (nasabah.getPin() != pin) {
+                attempts++;
+                if (attempts == 3) {
+                    System.out.println(RED_BACKGROUND + "Akses Ditolak, Kartu Anda Telah Diblokir " + RESET);
+                    nasabah.blokirKartu();
+                    startMenuATM(input);
+                    return;
+                }
+                System.out.println(RED_BACKGROUND + "Pin Salah, Silahkan Coba Lagi " + RESET);
+                System.out.println(RED_BACKGROUND + "Sisa Percobaan: " + (3 - attempts) + RESET);
+                System.out.print("Masukkan PIN: ");
+                pin = input.nextInt();
+                if (pin == -1) {
+                    startMenuATM(input);
+                    return;
+                }
+            }
+
+            System.out.println("");
+            MenuUser.userMenu(input, nasabah);
+                
+            
         } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "NOMOR KARTU ATAU PIN" + RESET);
+            System.out.println(BLUE_BACKGROUND + "TERJADI KESALAHAN, SILAHKAN COBA LAGI" + RESET);
+            startMenuATM(new Scanner(System.in));
         }
+        
     }
 
-    public static void userMenu(Scanner input, Nasabah nasabah) {
-        System.out.println(BLUE_BACKGROUND + " ┌────────────────────────────────────────────┐ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " │               MENU PENGGUNA ATM            │ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " └────────────────────────────────────────────┘ " + RESET + "\n");
-        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " TRANSFER                     GANTI PIN " + GREEN_BACKGROUND + " 4 ");
-        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " TARIK TUNAI          RIWAYAT TRANSAKSI " + GREEN_BACKGROUND + " 5 ");
-        System.out.println(GREEN_BACKGROUND + " 3 " + BLUE_BACKGROUND + " CEK SALDO                       KELUAR " + GREEN_BACKGROUND + " 0 ");
-        
-        System.out.print(BLUE_BACKGROUND + "PILIHAN ANDA -> " + RESET + " ");
-        int pilihanStart = -1;
-        try {
-            pilihanStart = input.nextInt();
-        } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "PILIHAN TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-            input.nextLine();
-        }
-        
-        System.out.println(pilihanStart);
-        
-    }
+    
 
     public static void adminLogin(Scanner input) {
-        String username = "";
-        String password = "";
+        String adminName = "admin";
+        String adminPass = "admin123";
+        
         try {
-            System.out.print(BLUE_BACKGROUND + "Username Password " + RESET);
-            username = input.next();
-            password = input.next();
-            System.out.println("");
+            System.out.print("Username Pass -> ");
+            String username = input.next();
+            String password = input.next();
+            
+            if (username.equals(adminName) && password.equals(adminPass)) {
+                System.out.println(BLUE_BACKGROUND + "Login Admin Berhasil" + RESET);
+                MenuAdmin.adminMenu(input);
+            } else {
+                System.out.println(BLUE_BACKGROUND + "Username atau Password salah, Silahkan Coba Lagi " + RESET);
+                adminLogin(input);
+            }
         } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "USERNAME ATAU PASSWORD TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-        }
-        if (username.equals("admin") && password.equals("admin123")) {
-            System.out.println(BLUE_BACKGROUND + "LOGIN ADMIN BERHASIL" + RESET);
-            adminMenu(input);
-        } else {
-            System.out.println(BLUE_BACKGROUND + "USERNAME ATAU PASSWORD SALAH, SILAHKAN COBA LAGI " + RESET);
-            adminLogin(input);
+            startMenuATM(new Scanner(System.in));
         }
     }
 
-    public static void adminMenu(Scanner input) {
-        
-        System.out.println(BLUE_BACKGROUND + " ┌────────────────────────────────────────────┐ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " │               MENU ADMIN ATM               │ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " └────────────────────────────────────────────┘ " + RESET + "\n");
-        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " EDIT DATA NASABAH " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " TAMBAH DATA NASABAH " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 3 " + BLUE_BACKGROUND + " LOGOUT " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 0 " + BLUE_BACKGROUND + " KELUAR DARI SISTEM " + RESET);
-        
-        // System.out.println(dataNasabah[0].getNomorRekening());
-
-        System.out.print(BLUE_BACKGROUND + "PILIHAN ANDA -> " + RESET + " ");
-        int pilihanStart = -1;
-        try {
-            pilihanStart = input.nextInt();
-        } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "PILIHAN TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-            input.nextLine();
-        }
-        
-        // System.out.println(SearchData.cariNasabahByRekening(123456789).getNama());
-        switch (pilihanStart) {
+    public static String tanggalToString(int tanggal, int bulan, int tahun) {
+        String stringBulan = "";
+        switch (bulan) {
             case 1:
-                editDataNasabah(input);
-                adminMenu(input);
+                stringBulan = "Januari";
                 break;
             case 2:
-                tambahDataNasabah(input);
-                adminMenu(input);
+                stringBulan = "Februari";
                 break;
             case 3:
-                System.out.println(BLUE_BACKGROUND + " LOGOUT BERHASIL " + RESET);
-                startMenuATM();
+                stringBulan = "Maret";
                 break;
-            case 0:
-                System.out.println(BLUE_BACKGROUND + " TERIMA KASIH TELAH MENGGUNAKAN SISTEM ATM KAMI " + RESET);
-                System.exit(0);
+            case 4:
+                stringBulan = "April";
+                break;
+            case 5:
+                stringBulan = "Mei";
+                break;
+            case 6:
+                stringBulan = "Juni";
+                break;
+            case 7:
+                stringBulan = "Juli";
+                break;
+            case 8:
+                stringBulan = "Agustus";
+                break;
+            case 9:
+                stringBulan = "September";
+                break;
+            case 10:
+                stringBulan = "Oktober";
+                break;
+            case 11:
+                stringBulan = "November";
+                break;
+            case 12:
+                stringBulan = "Desember";
                 break;
             default:
-                System.out.println(BLUE_BACKGROUND + "PILIHAN TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-                adminMenu(input);
+                break;
         }
+        return tanggal + " " + stringBulan + " " + tahun;
     }
-        
-    public static void editDataNasabah(Scanner input) {
-        System.out.print(BLUE_BACKGROUND + "MASUKKAN NOMOR REKENING NASABAH -> " + RESET);
-        int nomorRekening = input.nextInt();
-        Nasabah nasabahDitemukan = SearchData.cariNasabahByRekening(nomorRekening);
-        if (nasabahDitemukan != null) {
-            System.out.println(BLUE_BACKGROUND + "EDIT DATA NASABAH " + nasabahDitemukan.getNama() + RESET);
-            System.out.println(BLUE_BACKGROUND + "SILAHKAN EDIT DATA NASABAH SESUAI PILIHAN DI BAWAH INI: " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " NAMA NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " NOMOR REKENING NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 3 " + BLUE_BACKGROUND + " BANK NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 4 " + BLUE_BACKGROUND + " SALDO NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 5 " + BLUE_BACKGROUND + " NOMOR KARTU NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 6 " + BLUE_BACKGROUND + " PIN NASABAH " + RESET);
-            System.out.println(GREEN_BACKGROUND + " 0 " + BLUE_BACKGROUND + " KEMBALI " + RESET);
-
-            System.out.print(BLUE_BACKGROUND + "PILIHAN ANDA -> " + RESET + " ");
-            int pilihanEdit = input.nextInt();
-            System.out.print(BLUE_BACKGROUND + "MASUKKAN DATA BARU -> " + RESET);
-            input.nextLine(); // Clear buffer
-            switch (pilihanEdit) {
-                case 1:
-                    String namaBaru = input.nextLine();
-                    nasabahDitemukan.setNama(namaBaru);
-                    break;
-                case 2:
-                    int rekeningBaru = input.nextInt();
-                    nasabahDitemukan.setNomorRekening(rekeningBaru);
-                    break;
-                case 3:
-                    String namaBankBaru = input.nextLine();
-                    Bank bankBaru = SearchData.cariBankByNama(namaBankBaru);
-                    if (bankBaru != null) {
-                        nasabahDitemukan.setBank(bankBaru);
-                    } else {
-                        System.out.println(BLUE_BACKGROUND + "BANK TIDAK DITEMUKAN" + RESET);
-                    }
-                    break;
-                case 4:
-                    double saldoBaru = input.nextDouble();
-                    nasabahDitemukan.setSaldo(saldoBaru);
-                    break;
-                case 5:
-                    int kartuBaru = input.nextInt();
-                    nasabahDitemukan.setNomorKartu(kartuBaru);
-                    break;
-                case 6:
-                    int pinBaru = input.nextInt();
-                    nasabahDitemukan.setPin(pinBaru);
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println(BLUE_BACKGROUND + "PILIHAN TIDAK VALID" + RESET);
-            }
-            System.out.println(BLUE_BACKGROUND + "DATA NASABAH SUDAH DIUPDATE" + RESET);
-        } else {
-            System.out.println(BLUE_BACKGROUND + "NASABAH DENGAN NOMOR REKENING TERSEBUT TIDAK DITEMUKAN" + RESET);
-        }
-    }
-
-    public static void tambahDataNasabah(Scanner input) {
-        System.out.println(BLUE_BACKGROUND + "TAMBAH DATA NASABAH BARU" + RESET);
-        System.out.print(BLUE_BACKGROUND + "MASUKKAN NAMA NASABAH -> " + RESET);
-        String nama = input.nextLine();
-        if (nama.isEmpty()) {
-            nama = input.nextLine();
-        }
-        System.out.print(BLUE_BACKGROUND + "MASUKKAN NOMOR REKENING NASABAH -> " + RESET);
-        try {
-            int nomorRekening = input.nextInt();
-            System.out.print(BLUE_BACKGROUND + "MASUKKAN NAMA BANK NASABAH -> " + RESET);
-            input.nextLine(); // Clear buffer
-            String namaBank = input.nextLine();
-            Bank bank = SearchData.cariBankByNama(namaBank);
-            while (bank == null) {
-                System.out.print(BLUE_BACKGROUND + "MASUKKAN NAMA BANK NASABAH -> " + RESET);
-                namaBank = input.nextLine();
-                bank = SearchData.cariBankByNama(namaBank);
-            }
-            System.out.print(BLUE_BACKGROUND + "MASUKKAN SALDO AWAL NASABAH -> " + RESET);
-            double saldo = input.nextDouble();
-            System.out.print(BLUE_BACKGROUND + "MASUKKAN NOMOR KARTU NASABAH -> " + RESET);
-            int nomorKartu = input.nextInt();
-            System.out.print(BLUE_BACKGROUND + "MASUKKAN PIN NASABAH -> " + RESET);
-            int pin = input.nextInt();
-            Nasabah nasabahBaru = new Nasabah(nama, nomorRekening, bank, saldo, nomorKartu, pin);
-            // Menambahkan nasabah baru ke array dataNasabah
-            Nasabah[] nasabahSementara = new Nasabah[SistemATM.dataNasabah.length + 1];
-            for (int i = 0; i < SistemATM.dataNasabah.length; i++) {
-                nasabahSementara[i] = SistemATM.dataNasabah[i];
-            }
-            nasabahSementara[SistemATM.dataNasabah.length] = nasabahBaru;
-            SistemATM.dataNasabah = nasabahSementara;
-        } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "INPUT TIDAK VALID, SILAHKAN COBA LAGI " + RESET);
-            input.nextLine();
-            return;
-        }
-    }
-
+    
+    
 }

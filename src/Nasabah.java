@@ -4,27 +4,29 @@ import src.InfoTransaksi;
 
 public class Nasabah {
     String nama;
-    int nomorRekening;
+    long nomorRekening;
     Bank bank;
     double saldo = 0;
-    InfoTransaksi[] riwayatTransaksi;
-    int nomorKartu;
+    InfoTransaksi[] riwayatTransaksi = new InfoTransaksi[1000];
+    long nomorKartu;
     int pin;
+    boolean diblokir = false;
 
-    public Nasabah(String nama, int nomorRekening, Bank bank, double saldo, int nomorKartu, int pin) {
+    public Nasabah(String nama, long nomorRekening, Bank bank, double saldo, long nomorKartu, int pin, boolean diblokir) {
         this.nama = nama;
         this.nomorRekening = nomorRekening;
         this.bank = bank;
         this.saldo = saldo;
         this.nomorKartu = nomorKartu;
         this.pin = pin;
+        this.diblokir = false;
     }
     // Getter Methods
     public String getNama() {
         return nama;
     }
 
-    public int getNomorRekening() {
+    public long getNomorRekening() {
         return nomorRekening;
     }
 
@@ -36,13 +38,18 @@ public class Nasabah {
         return saldo;
     }
 
-    public int getNomorKartu() {
+    public long getNomorKartu() {
         return nomorKartu;
     }
 
     public int getPin() {
         return pin;
     }
+
+    public boolean getDiblokir() {
+        return diblokir;
+    }
+    
     // Setter Methods
     public void setNama(String namaBaru) {
         this.nama = namaBaru;
@@ -67,28 +74,45 @@ public class Nasabah {
     public void setPin(int pinBaru) {
         this.pin = pinBaru;
     }
-    // Methods
+
+    public void setDiblokir(boolean statusBaru) {
+        this.diblokir = statusBaru;
+    }
+    // Procedure
     public void tambahTransaksi(InfoTransaksi transaksiBaru) {
-        if (riwayatTransaksi == null) {
-            riwayatTransaksi = new InfoTransaksi[1];
-            riwayatTransaksi[0] = transaksiBaru;
-        } else {
-            InfoTransaksi[] temp = new InfoTransaksi[riwayatTransaksi.length + 1];
-            for (int i = 0; i < riwayatTransaksi.length; i++) {
-                temp[i] = riwayatTransaksi[i];
+        for (int i = 0; i < riwayatTransaksi.length; i++) {
+            if (riwayatTransaksi[i] == null) {
+                riwayatTransaksi[i] = transaksiBaru;
+                break;
             }
-            temp[riwayatTransaksi.length] = transaksiBaru;
-            riwayatTransaksi = temp;
         }
     }
-    public void terimaTransfer(int jumlah) {
-        this.saldo += jumlah;
+
+    public void kirimTransfer(int jumlah, Nasabah penerima) {
+        if (saldo >= jumlah) {
+            this.saldo -= jumlah;
+            penerima.saldo += jumlah;
+        } else {
+            System.out.println("Saldo anda tidak cukup!");
+        }
     }
-    public void kirimTransfer(int jumlah) {
+    public void tarikTunai(int jumlah) {
         if (saldo >= jumlah) {
             this.saldo -= jumlah;
         } else {
             System.out.println("Saldo anda tidak cukup!");
         }
+    }
+
+    public void editPIN(int pinBaru) {
+        this.pin = pinBaru;
+    }
+
+    public void blokirKartu() {
+        this.diblokir = true;
+    }
+
+    public void unblokirKartu() {
+        this.diblokir = false;
     }
 }
