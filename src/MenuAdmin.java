@@ -77,16 +77,60 @@ public class MenuAdmin {
     }
 
     public static void lihatDataNasabah(Scanner input) {
-        System.out.println(BLUE_BACKGROUND + "Data Nasabah Sistem ATM" + RESET + "\n");
+        int max_widthNama = 14;
+        int max_widthRekening = 16;
+        int max_widthBank = 6;
+        int max_widthSaldo = 7;
+        int max_widthKartu = 13;
+        int max_widthPin = 5;
+
         for (Nasabah nasabah : SistemATM.dataNasabah) {
-            System.out.println(BLUE_BACKGROUND + "Nama Nasabah: " + nasabah.getNama() + RESET + " ");
-            System.out.println(BLUE_BACKGROUND + "Nomor Rekening: " + nasabah.getNomorRekening() + RESET + " ");
-            System.out.println(BLUE_BACKGROUND + "Bank: " + nasabah.getBank().getNama() + RESET + " ");
-            System.out.println(BLUE_BACKGROUND + "Saldo: " + nasabah.getSaldo() + RESET + " ");
-            System.out.println(BLUE_BACKGROUND + "Nomor Kartu: " + nasabah.getNomorKartu() + RESET + " ");
-            System.out.println(BLUE_BACKGROUND + "PIN: " + nasabah.getPin() + RESET + " ");
-            System.out.println("");
+            if (nasabah != null) {
+                if (nasabah.getNama().length() > max_widthNama) {
+                    max_widthNama = nasabah.getNama().length();
+                }
+                if (String.valueOf(nasabah.getNomorRekening()).length() > max_widthRekening) {
+                    max_widthRekening = String.valueOf(nasabah.getNomorRekening()).length();
+                }
+                if (nasabah.getBank().getNama().length() > max_widthBank) {
+                    max_widthBank = nasabah.getBank().getNama().length();
+                }
+                if (String.valueOf(nasabah.getSaldo()).length() > max_widthSaldo) {
+                    max_widthSaldo = String.valueOf(nasabah.getSaldo()).length();
+                }
+                if (String.valueOf(nasabah.getNomorKartu()).length() > max_widthKartu) {
+                    max_widthKartu = String.valueOf(nasabah.getNomorKartu()).length();
+                }
+                if (String.valueOf(nasabah.getPin()).length() > max_widthPin) {
+                    max_widthPin = String.valueOf(nasabah.getPin()).length();
+                }
+            }
         }
+        max_widthNama       += 2;
+        max_widthRekening   += 2;
+        max_widthBank       += 2;
+        max_widthSaldo      += 2;
+        max_widthKartu      += 2;
+        max_widthPin        += 2;
+
+        String line1 = String.format("┌%" + (max_widthNama+2) + "s┬%" + (max_widthRekening+2) + "s┬%" + (max_widthBank+2) + "s┬%" + (max_widthSaldo+2) + "s┬%" + (max_widthKartu+2) + "s┬%" + (max_widthPin+2) + "s┐", " ", " ", " ", " ", " ", " ");
+        String line2 = String.format("├%" + (max_widthNama+2) + "s┼%" + (max_widthRekening+2) + "s┼%" + (max_widthBank+2) + "s┼%" + (max_widthSaldo+2) + "s┼%" + (max_widthKartu+2) + "s┼%" + (max_widthPin+2) + "s┤", " ", " ", " ", " ", " ", " ");
+        String line3 = String.format("└%" + (max_widthNama+2) + "s┴%" + (max_widthRekening+2) + "s┴%" + (max_widthBank+2) + "s┴%" + (max_widthSaldo+2) + "s┴%" + (max_widthKartu+2) + "s┴%" + (max_widthPin+2) + "s┘", " ", " ", " ", " ", " ", " ");
+        
+
+        System.out.println(BLUE_BACKGROUND + "Data Nasabah Sistem ATM" + RESET + "\n");
+        System.out.println(BLUE_BACKGROUND + line1.replace(' ', '─') + RESET);
+        System.out.printf(BLUE_BACKGROUND + "│ %" + max_widthNama + "s │ %" + max_widthRekening + "s │ %" + max_widthBank + "s │ %" + max_widthSaldo + "s │ %" + max_widthKartu + "s │ %" + max_widthPin + "s │" + RESET + "\n", "Nama Nasabah", "Nomor Rekening", "Bank", "Saldo", "Nomor Kartu", "PIN");
+        System.out.println(BLUE_BACKGROUND + line2.replace(' ', '─') + RESET);
+        for (Nasabah nasabah : SistemATM.dataNasabah) {
+            if (nasabah != null) {
+                System.out.printf(BLUE_BACKGROUND + "│ %" + max_widthNama + "s │ %" + max_widthRekening + "s │ %" + max_widthBank + "s │ %" + max_widthSaldo + "s │ %" + max_widthKartu + "s │ %" + max_widthPin + "s │" + RESET + " \n", nasabah.getNama(), nasabah.getNomorRekening(), nasabah.getBank().getNama(), nasabah.getSaldo(), nasabah.getNomorKartu(), nasabah.getPin());
+            } else {
+                break;
+            }
+        }
+        System.out.println(BLUE_BACKGROUND + line3.replace(' ', '─') + RESET);
+        System.out.println("");
     }
 
     public static Nasabah cariDataNasabah(Scanner input) {

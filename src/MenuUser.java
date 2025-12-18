@@ -23,10 +23,10 @@ public class MenuUser {
         System.out.println(BLUE_BACKGROUND + "Selamat datang, " + nasabah.getNama() + RESET);
         System.out.println(BLUE_BACKGROUND + "Tanggal: " + tanggalString + RESET + "\n");
 
-        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " Transfer                Riwayat Transaksi " + GREEN_BACKGROUND + " 5 " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " Tarik Tunai                        Logout " + GREEN_BACKGROUND + " 6 " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 3 " + BLUE_BACKGROUND + " Cek Saldo              Keluar dari Sistem " + GREEN_BACKGROUND + " 0 " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 4 " + BLUE_BACKGROUND + " Ganti Pin                                 " + GREEN_BACKGROUND + " 0 " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " Transfer               Riwayat Transaksi " + GREEN_BACKGROUND + " 5 " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " Tarik Tunai                       Logout " + GREEN_BACKGROUND + " 6 " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 3 " + BLUE_BACKGROUND + " Cek Saldo             Keluar dari Sistem " + GREEN_BACKGROUND + " 0 " + RESET);
+        System.out.println(GREEN_BACKGROUND + " 4 " + BLUE_BACKGROUND + " Ganti Pin                                " + GREEN_BACKGROUND + " - " + RESET);
         
         System.out.print("\nPilihan Anda -> ");
         int pilihanStart = -1;
