@@ -6,12 +6,6 @@ public class SistemATM {
     public static Nasabah[] dataNasabah = new Nasabah[1000];
     public static Bank[] dataBank = new Bank[1000];
 
-    public final static String BLUE_BACKGROUND = "\u001B[44m";
-    public final static String GREEN_BACKGROUND = "\u001B[42m";
-    public final static String YELLOW_BACKGROUND = "\u001B[43m";
-    public final static String RED_BACKGROUND = "\u001B[41m";
-    public final static String RESET = "\u001B[0m";
-
     public static int tanggal = 16;
     public static int bulan = 12;
     public static int tahun = 2025;
@@ -19,13 +13,13 @@ public class SistemATM {
 
     public static void startMenuATM(Scanner input) {
         tanggalString = tanggalToString(tanggal, bulan, tahun);
-        System.out.println(BLUE_BACKGROUND + " ┌────────────────────────────────────────────┐ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " │               MENU SISTEM ATM              │ " + RESET);
-        System.out.println(BLUE_BACKGROUND + " └────────────────────────────────────────────┘ " + RESET + "\n");
-        System.out.println(BLUE_BACKGROUND + "Tanggal: " + tanggalString + RESET + "\n");
-        System.out.println(GREEN_BACKGROUND + " 1 " + BLUE_BACKGROUND + " Login Admin " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 2 " + BLUE_BACKGROUND + " Login Pengguna " + RESET);
-        System.out.println(GREEN_BACKGROUND + " 0 " + BLUE_BACKGROUND + " Keluar Dari Sistem " + RESET);
+        System.out.println(" ┌────────────────────────────────────────────┐ ");
+        System.out.println(" │               MENU SISTEM ATM              │ ");
+        System.out.println(" └────────────────────────────────────────────┘ " + "\n");
+        System.out.println("Tanggal: " + tanggalString + "\n");
+        System.out.println(" 1  Login Admin ");
+        System.out.println(" 2  Login Pengguna ");
+        System.out.println(" 0  Keluar Dari Sistem ");
         System.out.print("\nPilihan Anda -> ");
         
         int pilihanStart = -1;
@@ -35,7 +29,7 @@ public class SistemATM {
             pilihanStart = input.nextInt();
             
         } catch (Exception e) {
-            System.out.println(RED_BACKGROUND + "Terjadi kesalahan, silahkan coba lagi " + RESET);
+            System.out.println("Terjadi kesalahan, silahkan coba lagi ");
             startMenuATM(new Scanner(System.in));
             return;
         }
@@ -43,20 +37,20 @@ public class SistemATM {
         System.out.println("");
         switch (pilihanStart) {
             case 1:
-                System.out.println(BLUE_BACKGROUND + "Login Admin" + RESET);
+                System.out.println("Login Admin");
                 adminLogin(input);
                 break;
             case 2:
-                System.out.println(BLUE_BACKGROUND + "Login Pengguna" + RESET);
+                System.out.println("Login Pengguna");
                 userLogin(input);
                 break;
             case 0:
-                System.out.println(BLUE_BACKGROUND + "Terima Kasih telah menggunakan Sistem ATM kami " + RESET);
+                System.out.println("Terima Kasih telah menggunakan Sistem ATM kami ");
                 input.close();
                 System.exit(0);
                 return;
             default:
-                System.out.println(RED_BACKGROUND + "Pilihan Tidak Valid, Silahkan Coba Lagi " + RESET);
+                System.out.println("Pilihan Tidak Valid, Silahkan Coba Lagi ");
                 startMenuATM(input);
                 break;
         }
@@ -80,7 +74,7 @@ public class SistemATM {
             try {
                 nomorKartu = input.nextLong();
             } catch (Exception e) {
-                System.out.println(RED_BACKGROUND + "Nomor Kartu Tidak Valid, Silahkan Coba Lagi " + RESET);
+                System.out.println("Nomor Kartu Tidak Valid, Silahkan Coba Lagi ");
                 startMenuATM(new Scanner(System.in));
                 return;
             }
@@ -93,7 +87,7 @@ public class SistemATM {
             Nasabah nasabah = SearchData.cariNasabahByKartu(nomorKartu);
             
             while (nasabah == null) {
-                System.out.println(RED_BACKGROUND + "Nomor Kartu Tidak Ditemukan, Silahkan Coba Lagi " + RESET);
+                System.out.println("Nomor Kartu Tidak Ditemukan, Silahkan Coba Lagi ");
                 System.out.print("Masukkan Nomor Kartu: ");
 
                 nomorKartu = input.nextLong();
@@ -111,13 +105,13 @@ public class SistemATM {
             while (nasabah.getPin() != pin) {
                 attempts++;
                 if (attempts == 3) {
-                    System.out.println(RED_BACKGROUND + "Akses Ditolak, Kartu Anda Telah Diblokir " + RESET);
+                    System.out.println("Akses Ditolak, Kartu Anda Telah Diblokir ");
                     nasabah.blokirKartu();
                     startMenuATM(input);
                     return;
                 }
-                System.out.println(RED_BACKGROUND + "Pin Salah, Silahkan Coba Lagi " + RESET);
-                System.out.println(RED_BACKGROUND + "Sisa Percobaan: " + (3 - attempts) + RESET);
+                System.out.println("Pin Salah, Silahkan Coba Lagi ");
+                System.out.println("Sisa Percobaan: " + (3 - attempts));
                 System.out.print("Masukkan PIN: ");
                 pin = input.nextInt();
                 if (pin == -1) {
@@ -131,7 +125,7 @@ public class SistemATM {
                 
             
         } catch (Exception e) {
-            System.out.println(BLUE_BACKGROUND + "TERJADI KESALAHAN, SILAHKAN COBA LAGI" + RESET);
+            System.out.println("Terjadi Kesalahan, Silahkan Coba Lagi");
             startMenuATM(new Scanner(System.in));
         }
         
@@ -149,10 +143,10 @@ public class SistemATM {
             String password = input.next();
             
             if (username.equals(adminName) && password.equals(adminPass)) {
-                System.out.println(BLUE_BACKGROUND + "Login Admin Berhasil" + RESET);
+                System.out.println("Login Admin Berhasil");
                 MenuAdmin.adminMenu(input);
             } else {
-                System.out.println(BLUE_BACKGROUND + "Username atau Password salah, Silahkan Coba Lagi " + RESET);
+                System.out.println("Username atau Password salah, Silahkan Coba Lagi ");
                 adminLogin(input);
             }
         } catch (Exception e) {
