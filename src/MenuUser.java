@@ -198,15 +198,48 @@ public class MenuUser {
         }
     }
 
-    public static void riwayatTransaksi(Nasabah nasabah) {
-        System.out.println("RIWAYAT TRANSAKSI ANDA: ");
+        public static void riwayatTransaksi(Nasabah nasabah) {
+    System.out.println("\nRIWAYAT TRANSAKSI ANDA:");
+
+    String format = "| %-25s | Rp %-15s | %-15s |%n";
+    String garis  = "+---------------------------+--------------------+-----------------+";
+
+    System.out.println(garis);
+    System.out.printf("| %-25s | %-18s | %-15s |%n", "JENIS TRANSAKSI", "NOMINAL", "BANK");
+    System.out.println(garis);
+
+    boolean adaData = false;
+    
+    if (nasabah.riwayatTransaksi != null) {
         for (InfoTransaksi transaksi : nasabah.riwayatTransaksi) {
             if (transaksi != null) {
-                System.out.println("- " + transaksi.jenisTransaksi + " sebesar " + transaksi.nominal + " di " + transaksi.bank.getNama() + " ");
+
+                String nominalStr = "" + transaksi.nominal; 
+                
+                try {
+                    long cekAngka = Long.parseLong(nominalStr.replace(".","").replace(",",""));
+                    nominalStr = String.format("%,d", cekAngka);
+                } catch (Exception e) {
+                }
+
+                System.out.printf(format, 
+                    transaksi.jenisTransaksi, 
+                    nominalStr, 
+                    transaksi.bank.getNama()
+                );
+                adaData = true;
             }
         }
-        System.out.println("");
-        userMenu(new Scanner(System.in), nasabah);
     }
+
+    if (!adaData) {
+        System.out.printf("| %-64s |%n", "Belum ada riwayat transaksi");
+    }
+
+    System.out.println(garis);
+    System.out.println("");
+    
+    userMenu(new Scanner(System.in), nasabah);
+}
 
 }
