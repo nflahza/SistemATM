@@ -11,9 +11,9 @@ public class MenuUser {
     public static void userMenu(Scanner input, Nasabah nasabah) {
         String tanggalString = SistemATM.tanggalString;
         
-        System.out.println(" ┌────────────────────────────────────────────┐ ");
-        System.out.println(" │               MENU PENGGUNA ATM            │ ");
-        System.out.println(" └────────────────────────────────────────────┘ " + "\n");
+        System.out.println(" +--------------------------------------------+ ");
+        System.out.println(" |               MENU PENGGUNA ATM            | ");
+        System.out.println(" +--------------------------------------------+ " + "\n");
         System.out.println("Selamat datang, " + nasabah.getNama());
         System.out.println("Tanggal: " + tanggalString + "\n");
         System.out.println(" 1  Transfer               Riwayat Transaksi  5 ");

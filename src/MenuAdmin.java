@@ -12,9 +12,9 @@ public class MenuAdmin {
     public static void adminMenu(Scanner input) {
         String tanggalString = SistemATM.tanggalString;
 
-        System.out.println(" ┌────────────────────────────────────────────┐ ");
-        System.out.println(" │               MENU ADMIN ATM               │ ");
-        System.out.println(" └────────────────────────────────────────────┘ \n");
+        System.out.println(" +--------------------------------------------+ ");
+        System.out.println(" |               MENU ADMIN ATM               | ");
+        System.out.println(" +--------------------------------------------+ " + "\n");
         System.out.println("Tanggal: " + tanggalString + "\n");
         System.out.println(" 1 " + " Lihat Semua Data Nasabah ");
         System.out.println(" 2 " + " Cari Data Nasabah ");
@@ -108,23 +108,23 @@ public class MenuAdmin {
         max_widthKartu      += 2;
         max_widthPin        += 2;
 
-        String line1 = String.format("┌%" + (max_widthNama+2) + "s┬%" + (max_widthRekening+2) + "s┬%" + (max_widthBank+2) + "s┬%" + (max_widthSaldo+2) + "s┬%" + (max_widthKartu+2) + "s┬%" + (max_widthPin+2) + "s┐", " ", " ", " ", " ", " ", " ");
-        String line2 = String.format("├%" + (max_widthNama+2) + "s┼%" + (max_widthRekening+2) + "s┼%" + (max_widthBank+2) + "s┼%" + (max_widthSaldo+2) + "s┼%" + (max_widthKartu+2) + "s┼%" + (max_widthPin+2) + "s┤", " ", " ", " ", " ", " ", " ");
-        String line3 = String.format("└%" + (max_widthNama+2) + "s┴%" + (max_widthRekening+2) + "s┴%" + (max_widthBank+2) + "s┴%" + (max_widthSaldo+2) + "s┴%" + (max_widthKartu+2) + "s┴%" + (max_widthPin+2) + "s┘", " ", " ", " ", " ", " ", " ");
+        String line1 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
+        String line2 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
+        String line3 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
         
 
         System.out.println("Data Nasabah Sistem ATM" + "\n");
-        System.out.println(line1.replace(' ', '─'));
-        System.out.printf("│ %" + max_widthNama + "s │ %" + max_widthRekening + "s │ %" + max_widthBank + "s │ %" + max_widthSaldo + "s │ %" + max_widthKartu + "s │ %" + max_widthPin + "s │" + "\n", "Nama Nasabah", "Nomor Rekening", "Bank", "Saldo", "Nomor Kartu", "PIN");
-        System.out.println(line2.replace(' ', '─'));
+        System.out.println(line1.replace(' ', '-'));
+        System.out.printf("| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %" + max_widthSaldo + "s | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + "\n", "Nama Nasabah", "Nomor Rekening", "Bank", "Saldo", "Nomor Kartu", "PIN");
+        System.out.println(line2.replace(' ', '-'));
         for (Nasabah nasabah : SistemATM.dataNasabah) {
             if (nasabah != null) {
-                System.out.printf("│ %" + max_widthNama + "s │ %" + max_widthRekening + "s │ %" + max_widthBank + "s │ %" + max_widthSaldo + "s │ %" + max_widthKartu + "s │ %" + max_widthPin + "s │" + " \n", nasabah.getNama(), nasabah.getNomorRekening(), nasabah.getBank().getNama(), nasabah.getSaldo(), nasabah.getNomorKartu(), nasabah.getPin());
+                System.out.printf("| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %" + max_widthSaldo + "s | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + " \n", nasabah.getNama(), nasabah.getNomorRekening(), nasabah.getBank().getNama(), nasabah.getSaldo(), nasabah.getNomorKartu(), nasabah.getPin());
             } else {
                 break;
             }
         }
-        System.out.println(line3.replace(' ', '─'));
+        System.out.println(line3.replace(' ', '-'));
         System.out.println("");
     }
 

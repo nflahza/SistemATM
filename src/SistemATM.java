@@ -13,9 +13,9 @@ public class SistemATM {
 
     public static void startMenuATM(Scanner input) {
         tanggalString = tanggalToString(tanggal, bulan, tahun);
-        System.out.println(" ┌────────────────────────────────────────────┐ ");
-        System.out.println(" │               MENU SISTEM ATM              │ ");
-        System.out.println(" └────────────────────────────────────────────┘ " + "\n");
+        System.out.println(" +--------------------------------------------+ ");
+        System.out.println(" |               MENU SISTEM ATM              | ");
+        System.out.println(" +--------------------------------------------+ " + "\n");
         System.out.println("Tanggal: " + tanggalString + "\n");
         System.out.println(" 1  Login Admin ");
         System.out.println(" 2  Login Pengguna ");
