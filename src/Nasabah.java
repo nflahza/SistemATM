@@ -12,7 +12,8 @@ public class Nasabah {
     int pin;
     boolean diblokir = false;
 
-    public Nasabah(String nama, long nomorRekening, Bank bank, double saldo, long nomorKartu, int pin, boolean diblokir) {
+    public Nasabah(String nama, long nomorRekening, Bank bank, double saldo, long nomorKartu, int pin,
+            boolean diblokir) {
         this.nama = nama;
         this.nomorRekening = nomorRekening;
         this.bank = bank;
@@ -21,6 +22,7 @@ public class Nasabah {
         this.pin = pin;
         this.diblokir = false;
     }
+
     // Getter Methods
     public String getNama() {
         return nama;
@@ -49,7 +51,7 @@ public class Nasabah {
     public boolean getDiblokir() {
         return diblokir;
     }
-    
+
     // Setter Methods
     public void setNama(String namaBaru) {
         this.nama = namaBaru;
@@ -78,6 +80,7 @@ public class Nasabah {
     public void setDiblokir(boolean statusBaru) {
         this.diblokir = statusBaru;
     }
+
     // Procedure
     public void tambahTransaksi(InfoTransaksi transaksiBaru) {
         for (int i = 0; i < riwayatTransaksi.length; i++) {
@@ -96,6 +99,7 @@ public class Nasabah {
             System.out.println("Saldo anda tidak cukup!");
         }
     }
+
     public void tarikTunai(int jumlah) {
         if (saldo >= jumlah) {
             this.saldo -= jumlah;

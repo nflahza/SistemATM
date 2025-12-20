@@ -21,19 +21,18 @@ public class SistemATM {
         System.out.println(" 2  Login Pengguna ");
         System.out.println(" 0  Keluar Dari Sistem ");
         System.out.print("\nPilihan Anda -> ");
-        
+
         int pilihanStart = -1;
-        
-        
+
         try {
             pilihanStart = input.nextInt();
-            
+
         } catch (Exception e) {
             System.out.println("Terjadi kesalahan, silahkan coba lagi ");
             startMenuATM(new Scanner(System.in));
             return;
         }
-        
+
         System.out.println("");
         switch (pilihanStart) {
             case 1:
@@ -55,37 +54,32 @@ public class SistemATM {
                 break;
         }
     }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        
+
         // Inisialisai data sampel
         DataAwal.initialize();
-        
+
         startMenuATM(input);
-        
+
     }
+
     public static void userLogin(Scanner input) {
         long nomorKartu;
         int pin;
         int attempts = 0;
         try {
             System.out.print("Masukkan Nomor Kartu: ");
-            
-            try {
-                nomorKartu = input.nextLong();
-            } catch (Exception e) {
-                System.out.println("Nomor Kartu Tidak Valid, Silahkan Coba Lagi ");
-                startMenuATM(new Scanner(System.in));
-                return;
-            }
+
+            nomorKartu = input.nextLong();
             if (nomorKartu == -1) {
                 startMenuATM(new Scanner(System.in));
                 return;
             }
-            // nomorKartu = input.nextInt();
 
             Nasabah nasabah = SearchData.cariNasabahByKartu(nomorKartu);
-            
+
             while (nasabah == null) {
                 System.out.println("Nomor Kartu Tidak Ditemukan, Silahkan Coba Lagi ");
                 System.out.print("Masukkan Nomor Kartu: ");
@@ -97,56 +91,60 @@ public class SistemATM {
                 }
                 nasabah = SearchData.cariNasabahByKartu(nomorKartu);
             }
-
-            System.out.print("Masukkan PIN: ");
-            pin = input.nextInt();
-
-
-            while (nasabah.getPin() != pin) {
-                attempts++;
-                if (attempts == 3) {
-                    System.out.println("Akses Ditolak, Kartu Anda Telah Diblokir ");
-                    nasabah.blokirKartu();
-                    startMenuATM(input);
-                    return;
-                }
-                System.out.println("Pin Salah, Silahkan Coba Lagi ");
-                System.out.println("Sisa Percobaan: " + (3 - attempts));
+            if (nasabah.diblokir) {
+                System.out.println("Kartu Anda Diblokir, Silahkan Hubungi Admin Bank\n");
+                startMenuATM(new Scanner(System.in));
+                return;
+            } else {
                 System.out.print("Masukkan PIN: ");
                 pin = input.nextInt();
-                if (pin == -1) {
-                    startMenuATM(input);
-                    return;
+
+                while (nasabah.getPin() != pin) {
+                    attempts++;
+                    if (attempts == 3) {
+                        System.out.println("Akses Ditolak, Kartu Anda Telah Diblokir\n");
+                        nasabah.blokirKartu();
+                        startMenuATM(input);
+                        return;
+                    }
+                    System.out.println("Pin Salah, Silahkan Coba Lagi ");
+                    System.out.println("Sisa Percobaan: " + (3 - attempts));
+                    System.out.print("Masukkan PIN: ");
+                    pin = input.nextInt();
+                    if (pin == -1) {
+                        startMenuATM(input);
+                        return;
+                    }
                 }
+
+                System.out.println("");
+                MenuUser.userMenu(input, nasabah);
+
             }
 
-            System.out.println("");
-            MenuUser.userMenu(input, nasabah);
-                
-            
         } catch (Exception e) {
             System.out.println("Terjadi Kesalahan, Silahkan Coba Lagi");
             startMenuATM(new Scanner(System.in));
         }
-        
+
     }
 
-    
-
     public static void adminLogin(Scanner input) {
-        String adminName = "admin";
         String adminPass = "admin123";
-        
+        System.out.println("Masukkan Password Admin (masukkan -1 untuk batal)");
+
         try {
-            System.out.print("Username Pass -> ");
-            String username = input.next();
+            System.out.print("Password Admin -> ");
             String password = input.next();
-            
-            if (username.equals(adminName) && password.equals(adminPass)) {
+
+            if (password.equals(adminPass)) {
                 System.out.println("Login Admin Berhasil");
                 MenuAdmin.adminMenu(input);
+            } else if (password.equals("-1")) {
+                startMenuATM(input);
+                return;
             } else {
-                System.out.println("Username atau Password salah, Silahkan Coba Lagi ");
+                System.out.println("Password salah, Silahkan Coba Lagi ");
                 adminLogin(input);
             }
         } catch (Exception e) {
@@ -198,6 +196,5 @@ public class SistemATM {
         }
         return tanggal + " " + stringBulan + " " + tahun;
     }
-    
-    
+
 }
