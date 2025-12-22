@@ -79,18 +79,6 @@ public class SistemATM {
             }
 
             Nasabah nasabah = SearchData.cariNasabahByKartu(nomorKartu);
-
-            while (nasabah == null) {
-                System.out.println("Nomor Kartu Tidak Ditemukan, Silahkan Coba Lagi ");
-                System.out.print("Masukkan Nomor Kartu: ");
-
-                nomorKartu = input.nextLong();
-                if (nomorKartu == -1) {
-                    startMenuATM(new Scanner(System.in));
-                    return;
-                }
-                nasabah = SearchData.cariNasabahByKartu(nomorKartu);
-            }
             if (nasabah.diblokir) {
                 System.out.println("Kartu Anda Diblokir, Silahkan Hubungi Admin Bank\n");
                 startMenuATM(new Scanner(System.in));
@@ -99,7 +87,7 @@ public class SistemATM {
                 System.out.print("Masukkan PIN: ");
                 pin = input.nextInt();
 
-                while (nasabah.getPin() != pin) {
+                while (nasabah.pin != pin) {
                     attempts++;
                     if (attempts == 3) {
                         System.out.println("Akses Ditolak, Kartu Anda Telah Diblokir\n");
@@ -122,8 +110,11 @@ public class SistemATM {
 
             }
 
+        } catch (NullPointerException e) {
+            System.out.println("Nasabah Tidak Ditemukan, Silahkan Coba Lagi\n");
+            startMenuATM(new Scanner(System.in));
         } catch (Exception e) {
-            System.out.println("Terjadi Kesalahan, Silahkan Coba Lagi");
+            System.out.println("Terjadi Kesalahan, Silahkan Coba Lagi\n");
             startMenuATM(new Scanner(System.in));
         }
 
@@ -197,4 +188,15 @@ public class SistemATM {
         return tanggal + " " + stringBulan + " " + tahun;
     }
 
+    public static void removeNasabah(Nasabah nasabah) {
+        for (int i = 0; i < dataNasabah.length; i++) {
+            if (dataNasabah[i] != null && dataNasabah[i].equals(nasabah)) {
+                for (int j = i; j < dataNasabah.length - 1; j++) {
+                    dataNasabah[j] = dataNasabah[j + 1];
+                }
+                dataNasabah[dataNasabah.length - 1] = null;
+                break;
+            }
+        }
+    }
 }

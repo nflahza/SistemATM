@@ -3,39 +3,32 @@ package src;
 public class SearchData {
     public static Nasabah cariNasabahByKartu(long nomorKartu) {
         for (Nasabah nasabah : SistemATM.dataNasabah) {
-            if (nasabah.getNomorKartu() == nomorKartu) {
+            if (nasabah.nomorKartu == nomorKartu) {
                 return nasabah;
             }
         }
-        return null; // Jika tidak ditemukan
+        System.out.println("\nNasabah dengan nomor kartu tersebut tidak ditemukan\n");
+        return null;
     }
+
     public static Nasabah cariNasabahByRekening(long nomorRekening) {
         for (Nasabah nasabah : SistemATM.dataNasabah) {
-            if (nasabah.getNomorRekening() == nomorRekening) {
+            if (nasabah.nomorRekening == nomorRekening) {
                 return nasabah;
             }
         }
-        return null; // Jika tidak ditemukan
+        System.out.println("\nNasabah dengan nomor rekening tersebut tidak ditemukan\n");
+
+        return null;
     }
+
     public static Bank cariBankByNama(String namaBank) {
         for (Bank bank : SistemATM.dataBank) {
-            if (bank.getNama().equalsIgnoreCase(namaBank)) {
+            if (bank.nama.equalsIgnoreCase(namaBank)) {
                 return bank;
             }
         }
-        return null; // Jika tidak ditemukan
+        System.out.println("\nBank dengan nama tersebut tidak ditemukan\n");
+        return null;
     }
-    
-    public static Bank cariBankByAlamat(String alamatBank) {
-        for (Bank bank : SistemATM.dataBank) {
-            if (bank.getAlamat().equalsIgnoreCase(alamatBank)) {
-                return bank;
-            }
-        }
-        return null; // Jika tidak ditemukan
-
-        
-    }
-    
-    
 }

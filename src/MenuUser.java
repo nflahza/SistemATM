@@ -13,7 +13,7 @@ public class MenuUser {
         System.out.println(" +--------------------------------------------+ ");
         System.out.println(" |               MENU PENGGUNA ATM            | ");
         System.out.println(" +--------------------------------------------+ " + "\n");
-        System.out.println("Selamat datang, " + nasabah.getNama());
+        System.out.println("Selamat datang, " + nasabah.nama);
         System.out.println("Tanggal: " + tanggalString + "\n");
         System.out.println(" 1  Transfer               Riwayat Transaksi  5 ");
         System.out.println(" 2  Tarik Tunai                       Logout  6 ");
@@ -88,17 +88,17 @@ public class MenuUser {
             System.out.print("Masukkan Jumlah Transfer: ");
             double jumlahTransfer = input.nextDouble();
 
-            if (nasabah.getSaldo() >= jumlahTransfer && jumlahTransfer > 0) {
-                nasabah.setSaldo(nasabah.getSaldo() - jumlahTransfer);
-                nasabahTujuan.setSaldo(nasabahTujuan.getSaldo() + jumlahTransfer);
-                nasabah.tambahTransaksi(new InfoTransaksi(-jumlahTransfer, nasabah.getBank(), "Transfer", nasabahTujuan,
+            if (nasabah.saldo >= jumlahTransfer && jumlahTransfer > 0) {
+                nasabah.saldo -= jumlahTransfer;
+                nasabahTujuan.saldo += jumlahTransfer;
+                nasabah.tambahTransaksi(new InfoTransaksi(-jumlahTransfer, nasabah.bank, "Transfer", nasabahTujuan,
                         SistemATM.tanggal, SistemATM.bulan, SistemATM.tahun));
-                nasabahTujuan.tambahTransaksi(new InfoTransaksi(jumlahTransfer, nasabahTujuan.getBank(), "Transfer",
+                nasabahTujuan.tambahTransaksi(new InfoTransaksi(jumlahTransfer, nasabahTujuan.bank, "Transfer",
                         nasabah, SistemATM.tanggal, SistemATM.bulan, SistemATM.tahun));
 
                 System.out.println("");
                 System.out.println("Transfer Berhasil!");
-                System.out.println("Sisa Saldo: " + nasabah.getSaldo());
+                System.out.println("Sisa Saldo: " + nasabah.saldo);
             } else if (jumlahTransfer <= 0) {
                 System.out.println("Jumlah Transfer Harus Positif");
             } else {
@@ -107,9 +107,11 @@ public class MenuUser {
 
             System.out.println("");
 
+        } catch (NullPointerException e) {
+            System.out.println("Nasabah Tujuan Tidak Ditemukan, silahkan coba lagi\n");
+            userMenu(new Scanner(System.in), nasabah);
         } catch (Exception e) {
-            System.out.println("Input tidak valid, silahkan coba lagi.");
-            System.out.println("");
+            System.out.println("Input Tidak Valid, Silahkan Coba Lagi\n");
             userMenu(new Scanner(System.in), nasabah);
         }
     }
@@ -119,12 +121,12 @@ public class MenuUser {
             System.out.print("Masukkan Jumlah Penarikan: ");
             double jumlahPenarikan = input.nextDouble();
 
-            if (nasabah.getSaldo() >= jumlahPenarikan) {
-                nasabah.setSaldo(nasabah.getSaldo() - jumlahPenarikan);
+            if (nasabah.saldo >= jumlahPenarikan) {
+                nasabah.saldo -= jumlahPenarikan;
                 System.out.println("");
                 System.out.println("Penarikan Berhasil!");
-                System.out.println("Sisa Saldo: " + nasabah.getSaldo());
-                nasabah.tambahTransaksi(new InfoTransaksi(-jumlahPenarikan, nasabah.getBank(), "Tarik Tunai", null,
+                System.out.println("Sisa Saldo: " + nasabah.saldo);
+                nasabah.tambahTransaksi(new InfoTransaksi(-jumlahPenarikan, nasabah.bank, "Tarik Tunai", null,
                         SistemATM.tanggal, SistemATM.bulan, SistemATM.tahun));
                 System.out.println("");
                 userMenu(new Scanner(System.in), nasabah);
@@ -140,7 +142,7 @@ public class MenuUser {
     }
 
     public static void cekSaldo(Nasabah nasabah) {
-        System.out.println("Saldo Anda Saat Ini: " + nasabah.getSaldo());
+        System.out.println("Saldo Anda Saat Ini: " + nasabah.saldo);
         System.out.println("");
         userMenu(new Scanner(System.in), nasabah);
     }
@@ -162,7 +164,7 @@ public class MenuUser {
             // userMenu(new Scanner(System.in), nasabah);
             // return;
             // }
-            while (pinLama != nasabah.getPin() && pinLama != -1) {
+            while (pinLama != nasabah.pin && pinLama != -1) {
                 System.out.println("Pin Lama Salah, Silahkan Coba Lagi");
                 System.out.print("Masukkan PIN Lama: ");
                 pinLama = input.nextInt();
@@ -188,7 +190,7 @@ public class MenuUser {
                 }
             }
 
-            nasabah.setPin(pinBaru);
+            nasabah.pin = pinBaru;
             System.out.println("");
             System.out.println("Pin Berhasil Diubah");
             System.out.println("");
@@ -226,11 +228,11 @@ public class MenuUser {
                 if (String.valueOf(transaksi.nominal).length() > max_widthnominal) {
                     max_widthnominal = String.valueOf(transaksi.nominal).length();
                 }
-                if (transaksi.bank.getNama().length() > max_widthBank) {
-                    max_widthBank = transaksi.bank.getNama().length();
+                if (transaksi.bank.nama.length() > max_widthBank) {
+                    max_widthBank = transaksi.bank.nama.length();
                 }
-                if (transaksi.nasabahTarget != null && transaksi.nasabahTarget.getNama().length() > max_nasabahTarget) {
-                    max_nasabahTarget = transaksi.nasabahTarget.getNama().length();
+                if (transaksi.nasabahTarget != null && transaksi.nasabahTarget.nama.length() > max_nasabahTarget) {
+                    max_nasabahTarget = transaksi.nasabahTarget.nama.length();
                 }
                 if (String.valueOf(transaksi.tanggal).length() > max_widthtanggal) {
                     max_widthtanggal = String.valueOf(transaksi.tanggal).length();
@@ -266,8 +268,8 @@ public class MenuUser {
                         "| %" + max_widthjenisTransaksi + "s | %+," + max_widthnominal + ".2f | %" + max_widthBank
                                 + "s | %"
                                 + max_nasabahTarget + "s | %" + max_widthtanggal + "s |" + " \n",
-                        transaksi.getJenisTransaksi(), transaksi.getNominal(), transaksi.getBank().getNama(),
-                        transaksi.getNasabahTarget() != null ? transaksi.getNasabahTarget().getNama() : "-",
+                        transaksi.jenisTransaksi, transaksi.nominal, transaksi.bank.nama,
+                        transaksi.nasabahTarget != null ? transaksi.nasabahTarget.nama : "-",
                         tanggal);
             }
         }

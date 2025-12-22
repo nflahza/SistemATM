@@ -8,7 +8,6 @@ public class MenuAdmin {
     static int bulan = SistemATM.bulan;
     static int tahun = SistemATM.tahun;
 
-
     public static void adminMenu(Scanner input) {
         String tanggalString = SistemATM.tanggalString;
 
@@ -20,10 +19,11 @@ public class MenuAdmin {
         System.out.println(" 2 " + " Cari Data Nasabah ");
         System.out.println(" 3 " + " Edit Data Nasabah ");
         System.out.println(" 4 " + " Tambah Data Nasabah ");
-        System.out.println(" 5 " + " Ganti Tanggal ");
-        System.out.println(" 6 " + " Logout ");
+        System.out.println(" 5 " + " Hapus Data Nasabah ");
+        System.out.println(" 6 " + " Ganti Tanggal ");
+        System.out.println(" 7 " + " Logout ");
         System.out.println(" 0 " + " Keluar Dari Sistem ");
-        
+
         System.out.print("\nPilihan Anda -> ");
         int pilihanStart = -1;
         try {
@@ -32,7 +32,7 @@ public class MenuAdmin {
             System.out.println("Pilihan tidak valid, silahkan coba lagi ");
             adminMenu(input);
         }
-        
+
         System.out.println("");
         switch (pilihanStart) {
             case 1:
@@ -40,7 +40,8 @@ public class MenuAdmin {
                 adminMenu(input);
                 break;
             case 2:
-                tampilkanDataNasabah(cariDataNasabah(input));
+                Nasabah nasabah = cariDataNasabah(input);
+                tampilkanDataNasabah(nasabah);
                 adminMenu(input);
                 break;
             case 3:
@@ -52,21 +53,24 @@ public class MenuAdmin {
                 adminMenu(input);
                 break;
             case 5:
-                gantiTanggal(input);    
+                hapusDataNasabah(input);
                 adminMenu(input);
                 break;
             case 6:
-                System.out.println(" Logout Berhasil ");
+                gantiTanggal(input);
+                adminMenu(input);
+                break;
+            case 7:
+                System.out.println("Logout Berhasil");
                 SistemATM.startMenuATM(input);
                 break;
             case 0:
-                System.out.println(" Terima Kasih Telah Menggunakan Sistem ATM Kami ");
+                System.out.println("Terima Kasih Telah Menggunakan Sistem ATM Kami");
                 input.close();
                 System.exit(0);
                 return;
             default:
-                System.out.println("Pilihan Tidak Valid, Silahkan Coba Lagi ");
-                System.out.println("");
+                System.out.println("Pilihan Tidak Valid, Silahkan Coba Lagi\n");
                 adminMenu(input);
         }
     }
@@ -81,103 +85,100 @@ public class MenuAdmin {
 
         for (Nasabah nasabah : SistemATM.dataNasabah) {
             if (nasabah != null) {
-                if (nasabah.getNama().length() > max_widthNama) {
-                    max_widthNama = nasabah.getNama().length();
+                if (nasabah.nama.length() > max_widthNama) {
+                    max_widthNama = nasabah.nama.length();
                 }
-                if (String.valueOf(nasabah.getNomorRekening()).length() > max_widthRekening) {
-                    max_widthRekening = String.valueOf(nasabah.getNomorRekening()).length();
+                if (String.valueOf(nasabah.nomorRekening).length() > max_widthRekening) {
+                    max_widthRekening = String.valueOf(nasabah.nomorRekening).length();
                 }
-                if (nasabah.getBank().getNama().length() > max_widthBank) {
-                    max_widthBank = nasabah.getBank().getNama().length();
+                if (nasabah.bank.nama.length() > max_widthBank) {
+                    max_widthBank = nasabah.bank.nama.length();
                 }
-                if (String.valueOf(nasabah.getSaldo()).length() > max_widthSaldo) {
-                    max_widthSaldo = String.valueOf(nasabah.getSaldo()).length();
+                if (String.valueOf(nasabah.saldo).length() > max_widthSaldo) {
+                    max_widthSaldo = String.valueOf(nasabah.saldo).length() + ((int) Math.log10(nasabah.saldo) / 3) + 2;
                 }
-                if (String.valueOf(nasabah.getNomorKartu()).length() > max_widthKartu) {
-                    max_widthKartu = String.valueOf(nasabah.getNomorKartu()).length();
+                if (String.valueOf(nasabah.nomorKartu).length() > max_widthKartu) {
+                    max_widthKartu = String.valueOf(nasabah.nomorKartu).length();
                 }
-                if (String.valueOf(nasabah.getPin()).length() > max_widthPin) {
-                    max_widthPin = String.valueOf(nasabah.getPin()).length();
+                if (String.valueOf(nasabah.pin).length() > max_widthPin) {
+                    max_widthPin = String.valueOf(nasabah.pin).length();
                 }
             }
         }
-        max_widthNama       += 2;
-        max_widthRekening   += 2;
-        max_widthBank       += 2;
-        max_widthSaldo      += 2;
-        max_widthKartu      += 2;
-        max_widthPin        += 2;
+        max_widthNama += 2;
+        max_widthRekening += 2;
+        max_widthBank += 2;
+        max_widthSaldo += 4;
+        max_widthKartu += 2;
+        max_widthPin += 2;
 
-        String line1 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
-        String line2 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
-        String line3 = String.format("+%" + (max_widthNama+2) + "s+%" + (max_widthRekening+2) + "s+%" + (max_widthBank+2) + "s+%" + (max_widthSaldo+2) + "s+%" + (max_widthKartu+2) + "s+%" + (max_widthPin+2) + "s+", " ", " ", " ", " ", " ", " ");
-        
+        String line = String.format(
+                "+%" + (max_widthNama + 2) + "s+%" + (max_widthRekening + 2) + "s+%" + (max_widthBank + 2) + "s+%"
+                        + (max_widthSaldo + 2) + "s+%" + (max_widthKartu + 2) + "s+%" + (max_widthPin + 2) + "s+",
+                " ", " ", " ", " ", " ", " ").replace(' ', '-');
 
         System.out.println("Data Nasabah Sistem ATM" + "\n");
-        System.out.println(line1.replace(' ', '-'));
-        System.out.printf("| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %" + max_widthSaldo + "s | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + "\n", "Nama Nasabah", "Nomor Rekening", "Bank", "Saldo", "Nomor Kartu", "PIN");
-        System.out.println(line2.replace(' ', '-'));
+        System.out.println(line);
+        System.out.printf(
+                "| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %" + max_widthSaldo
+                        + "s | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + "\n",
+                "Nama Nasabah", "Nomor Rekening", "Bank", "Saldo", "Nomor Kartu", "PIN");
+        System.out.println(line);
         for (Nasabah nasabah : SistemATM.dataNasabah) {
             if (nasabah != null) {
-                System.out.printf("| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %" + max_widthSaldo + "s | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + " \n", nasabah.getNama(), nasabah.getNomorRekening(), nasabah.getBank().getNama(), nasabah.getSaldo(), nasabah.getNomorKartu(), nasabah.getPin());
+                System.out.printf(
+                        "| %" + max_widthNama + "s | %" + max_widthRekening + "s | %" + max_widthBank + "s | %,"
+                                + max_widthSaldo + ".2f | %" + max_widthKartu + "s | %" + max_widthPin + "s |" + " \n",
+                        nasabah.nama, nasabah.nomorRekening, nasabah.bank.nama, nasabah.saldo,
+                        nasabah.nomorKartu, nasabah.pin);
             } else {
                 break;
             }
         }
-        System.out.println(line3.replace(' ', '-'));
+        System.out.println(line);
         System.out.println("");
     }
 
     public static Nasabah cariDataNasabah(Scanner input) {
         try {
-            System.out.println("Cari Data Nasabah Berdasarkan:" + " ");
+            System.out.println("Cari Data Nasabah Berdasarkan: ");
             System.out.println(" 1 " + " Nomor Rekening Nasabah ");
             System.out.println(" 2 " + " Nomor Kartu Nasabah ");
-            System.out.print("\nPilihan Anda -> " + " ");
+            System.out.print("\nPilihan Anda -> ");
+
             int pilihanCari = input.nextInt();
-            Nasabah nasabahDitemukan = null;
             switch (pilihanCari) {
                 case 1:
                     System.out.print("Masukkan Nomor Rekening Nasabah Yang Ingin Dicari -> ");
                     long nomorRekening = input.nextLong();
-                    nasabahDitemukan = SearchData.cariNasabahByRekening(nomorRekening);
-                    break;
+                    Nasabah nasabahRekening = SearchData.cariNasabahByRekening(nomorRekening);
+                    return nasabahRekening;
                 case 2:
-                    System.out.print("Masukkan Nomor Rekening Nasabah Yang Ingin Dicari -> ");
+                    System.out.print("Masukkan Nomor Kartu Nasabah Yang Ingin Dicari -> ");
                     long nomorKartu = input.nextLong();
-                    nasabahDitemukan = SearchData.cariNasabahByKartu(nomorKartu);
-                    break;
+                    Nasabah nasabahKartu = SearchData.cariNasabahByKartu(nomorKartu);
+                    return nasabahKartu;
                 default:
-                    System.out.println("Pilihan Tidak Valid, Silahkan Coba Lagi ");
+                    System.out.println("Pilihan Tidak Valid, Silahkan Coba Lagi\n");
                     adminMenu(new Scanner(System.in));
             }
-            return nasabahDitemukan;
-        } catch (Exception e) {
-            System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
-            System.out.println("");
 
+        } catch (NullPointerException e) {
+            System.out.println("Data Nasabah Tidak Ditemukan, Silahkan Coba Lagi\n");
             adminMenu(new Scanner(System.in));
         }
         return null;
     }
 
     public static void tampilkanDataNasabah(Nasabah nasabah) {
-        if (nasabah != null) {
-            System.out.println("");
-            System.out.println("Data Nasabah Ditemukan ");
-            System.out.println("Nama Nasabah: " + nasabah.getNama() + " ");
-            System.out.println("Nomor Rekening: " + nasabah.getNomorRekening() + " ");
-            System.out.println("Bank: " + nasabah.getBank().getNama() + " ");
-            System.out.println("Saldo: " + nasabah.getSaldo() + " ");
-            System.out.println("Nomor Kartu: " + nasabah.getNomorKartu() + " ");
-            System.out.println("PIN: " + nasabah.getPin() + " ");
-            System.out.println("");
-        } else {
-            System.out.println("");
-            System.out.println("Nasabah dengan nomor rekening tersebut tidak ditemukan ");
-            System.out.println("");
-            
-        }
+        System.out.println("");
+        System.out.println("Data Nasabah Ditemukan\n");
+        System.out.printf("%-20s: %s\n", "Nama ", nasabah.nama);
+        System.out.printf("%-20s: %s\n", "Nomor Rekening ", nasabah.nomorRekening);
+        System.out.printf("%-20s: %s\n", "Bank ", nasabah.bank.nama);
+        System.out.printf("%-20s: %,.2f\n", "Saldo ", nasabah.saldo);
+        System.out.printf("%-20s: %s\n", "Nomor Kartu ", nasabah.nomorKartu);
+        System.out.printf("%-20s: %s\n\n", "PIN ", nasabah.pin);
     }
 
     public static void editDataNasabah(Scanner input) {
@@ -187,72 +188,79 @@ public class MenuAdmin {
             if (nasabahDitemukan != null) {
                 System.out.println("\n" + "Silahkan edit data nasabah sesuai pilihan di bawah ini: ");
                 System.out.println("");
-                System.out.println(" 1 " + " Nama Nasabah ");
-                System.out.println(" 2 " + " Nomor Rekening Nasabah ");
-                System.out.println(" 3 " + " Bank Nasabah ");
-                System.out.println(" 4 " + " Saldo Nasabah ");
-                System.out.println(" 5 " + " Nomor Kartu Nasabah ");
-                System.out.println(" 6 " + " Pin Nasabah ");
+                System.out.println(" 1 " + " Nama ");
+                System.out.println(" 2 " + " Nomor Rekening ");
+                System.out.println(" 3 " + " Bank ");
+                System.out.println(" 4 " + " Saldo ");
+                System.out.println(" 5 " + " Nomor Kartu ");
+                System.out.println(" 6 " + " Pin ");
                 System.out.println(" 7 " + " Blokir/Unblokir Kartu Nasabah ");
                 System.out.println(" 0 " + " Kembali ");
 
                 System.out.print("\nPilihan Anda -> ");
-                
-                int pilihanEdit = input.nextInt();
-                System.out.print("Masukkan Data Baru -> ");
-                input.nextLine(); // Clear buffer
 
+                int pilihanEdit = input.nextInt();
+                input.nextLine();
                 switch (pilihanEdit) {
                     case 1:
+                        System.out.print("Masukkan Nama Baru -> ");
                         String namaBaru = input.nextLine();
-                        nasabahDitemukan.setNama(namaBaru);
+                        nasabahDitemukan.nama = namaBaru;
                         break;
                     case 2:
+                        System.out.print("Masukkan Nomor Rekening Baru -> ");
                         int rekeningBaru = input.nextInt();
-                        nasabahDitemukan.setNomorRekening(rekeningBaru);
+                        nasabahDitemukan.nomorRekening = rekeningBaru;
                         break;
                     case 3:
+                        System.out.print("Masukkan Bank Baru -> ");
                         String namaBankBaru = input.nextLine();
                         Bank bankBaru = SearchData.cariBankByNama(namaBankBaru);
                         if (bankBaru != null) {
-                            nasabahDitemukan.setBank(bankBaru);
+                            nasabahDitemukan.bank = bankBaru;
                         } else {
                             System.out.println("Bank tidak Ditemukan");
                         }
                         break;
                     case 4:
+                        System.out.print("Masukkan Saldo Baru -> ");
                         double saldoBaru = input.nextDouble();
-                        nasabahDitemukan.setSaldo(saldoBaru);
+                        nasabahDitemukan.saldo = saldoBaru;
                         break;
                     case 5:
+                        System.out.print("Masukkan Nomor Kartu Baru -> ");
                         int kartuBaru = input.nextInt();
-                        nasabahDitemukan.setNomorKartu(kartuBaru);
+                        nasabahDitemukan.nomorKartu = kartuBaru;
                         break;
                     case 6:
+                        System.out.print("Masukkan Pin Baru -> ");
                         int pinBaru = input.nextInt();
                         if (pinBaru < 100000 || pinBaru > 999999) {
                             System.out.println("Pin harus 6 digit");
                             break;
                         }
-                        nasabahDitemukan.setPin(pinBaru);
+                        nasabahDitemukan.pin = pinBaru;
                         break;
                     case 7:
+                        System.out.print(
+                                "Masukkan Status Kartu Baru (true jika ingin blokir, false jika ingin unblokir) -> ");
                         boolean statusKartuBaru = input.nextBoolean();
-                        nasabahDitemukan.setDiblokir(statusKartuBaru);
+                        nasabahDitemukan.diblokir = statusKartuBaru;
                         break;
                     case 0:
                         System.out.println("");
                         adminMenu(new Scanner(System.in));
                         System.out.println("");
+                        break;
                     default:
                         System.out.println("");
                         System.out.println("Pilihan Tidak Valid");
                         System.out.println("");
                         adminMenu(new Scanner(System.in));
-                    } 
+                }
 
-            System.out.println("Data Nasabah Sudah Diupdate");
-            System.out.println("");
+                System.out.println("Data Nasabah Sudah Diupdate");
+                System.out.println("");
 
             } else {
                 System.out.println("Nasabah Dengan Nomor Rekening Tersebut Tidak Ditemukan");
@@ -262,7 +270,7 @@ public class MenuAdmin {
             System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
             adminMenu(new Scanner(System.in));
         }
-        
+
     }
 
     public static void tambahDataNasabah(Scanner input) {
@@ -274,9 +282,9 @@ public class MenuAdmin {
                 nama = input.nextLine();
             }
             System.out.print("Masukkan Nomor Rekening Nasabah -> ");
-            
+
             long nomorRekening = Long.parseLong(input.next());
-            System.out.print( "Masukkan Nama Bank Nasabah -> ");
+            System.out.print("Masukkan Nama Bank Nasabah -> ");
             input.nextLine(); // Clear buffer
             String namaBank = input.nextLine();
             Bank bank = SearchData.cariBankByNama(namaBank);
@@ -297,14 +305,13 @@ public class MenuAdmin {
                 pin = input.nextInt();
 
             }
-            
-            
+
             Nasabah nasabahBaru = new Nasabah(nama, nomorRekening, bank, saldo, nomorKartu, pin, false);
             Nasabah[] dataNasabah = SistemATM.dataNasabah;
             // dataNasabah[dataNasabah.length] = nasabahBaru;
             // System.out.println("\n" + "Data Nasabah Berhasil Ditambahkan");
             // System.out.println("");
-                    
+
             for (int i = 0; i < dataNasabah.length; i++) {
                 if (dataNasabah[i] == null) {
                     dataNasabah[i] = nasabahBaru;
@@ -313,11 +320,34 @@ public class MenuAdmin {
                     break;
                 }
             }
-        
+
         } catch (Exception e) {
             System.out.println("");
             System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
             System.out.println("");
+            adminMenu(new Scanner(System.in));
+            return;
+        }
+    }
+
+    public static void hapusDataNasabah(Scanner input) {
+        try {
+            Nasabah nasabahDitemukan = cariDataNasabah(input);
+            tampilkanDataNasabah(nasabahDitemukan);
+            System.out.print("Apakah Anda Yakin Ingin Menghapus Data Nasabah Ini? (masukkan 'y' untuk konformasi) -> ");
+            char pilihan = input.next().charAt(0);
+            if (pilihan == 'y' || pilihan == 'Y') {
+                SistemATM.removeNasabah(nasabahDitemukan);
+                System.out.println("\nData Nasabah Berhasil Dihapus\n");
+            } else {
+                System.out.println("\nData Nasabah Batal Dihapus\n");
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Data Nasabah Tidak Ditemukan");
+            adminMenu(new Scanner(System.in));
+            return;
+        } catch (Exception e) {
+            System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
             adminMenu(new Scanner(System.in));
             return;
         }
@@ -333,16 +363,25 @@ public class MenuAdmin {
             while (bulanBaru < 1 || bulanBaru > 12) {
                 System.out.print("Bulan Tidak Valid, Silahkan Coba Lagi: ");
                 bulanBaru = input.nextInt();
-                
+
             }
             System.out.print("Masukkan Tanggal Baru: ");
             boolean kabisat = (tahunBaru % 4 == 0 && tahunBaru % 100 != 0) || (tahunBaru % 400 == 0);
             int jumlahHariDalamBulan = 31;
             switch (bulanBaru) {
-                case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
                     jumlahHariDalamBulan = 31;
                     break;
-                case 4: case 6: case 9: case 11:
+                case 4:
+                case 6:
+                case 9:
+                case 11:
                     jumlahHariDalamBulan = 30;
                     break;
                 case 2:
@@ -356,17 +395,16 @@ public class MenuAdmin {
             }
 
             SistemATM.tanggal = tanggalBaru;
-            SistemATM.bulan = bulanBaru;        
+            SistemATM.bulan = bulanBaru;
             SistemATM.tahun = tahunBaru;
             SistemATM.tanggalString = SistemATM.tanggalToString(tanggalBaru, bulanBaru, tahunBaru);
-            
+
             System.out.println("Tanggal Berhasil Diubah" + "\n");
 
-            
         } catch (Exception e) {
             System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
             adminMenu(new Scanner(System.in));
-        } 
+        }
     }
 
 }

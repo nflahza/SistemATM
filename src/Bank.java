@@ -10,24 +10,4 @@ public class Bank {
         this.cabang = cabang;
         this.alamat = alamat;
     }
-    // Getter Methods
-    public String getNama() {
-        return nama;
-    }
-    public String getCabang() {
-        return cabang;
-    }
-    public String getAlamat() {
-        return alamat;
-    }
-    // Setter Methods
-    public void setNama(String namaBaru) {
-        this.nama = namaBaru;
-    }
-    public void setCabang(String cabangBaru) {
-        this.cabang = cabangBaru;
-    }
-    public void setAlamat(String alamatBaru) {
-        this.alamat = alamatBaru;
-    }
 }

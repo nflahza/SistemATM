@@ -1,7 +1,5 @@
 package src;
 
-import src.InfoTransaksi;
-
 public class Nasabah {
     String nama;
     long nomorRekening;
@@ -23,64 +21,6 @@ public class Nasabah {
         this.diblokir = false;
     }
 
-    // Getter Methods
-    public String getNama() {
-        return nama;
-    }
-
-    public long getNomorRekening() {
-        return nomorRekening;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public long getNomorKartu() {
-        return nomorKartu;
-    }
-
-    public int getPin() {
-        return pin;
-    }
-
-    public boolean getDiblokir() {
-        return diblokir;
-    }
-
-    // Setter Methods
-    public void setNama(String namaBaru) {
-        this.nama = namaBaru;
-    }
-
-    public void setNomorRekening(int nomorRekeningBaru) {
-        this.nomorRekening = nomorRekeningBaru;
-    }
-
-    public void setBank(Bank bankBaru) {
-        this.bank = bankBaru;
-    }
-
-    public void setSaldo(double saldoBaru) {
-        this.saldo = saldoBaru;
-    }
-
-    public void setNomorKartu(int nomorKartuBaru) {
-        this.nomorKartu = nomorKartuBaru;
-    }
-
-    public void setPin(int pinBaru) {
-        this.pin = pinBaru;
-    }
-
-    public void setDiblokir(boolean statusBaru) {
-        this.diblokir = statusBaru;
-    }
-
     // Procedure
     public void tambahTransaksi(InfoTransaksi transaksiBaru) {
         for (int i = 0; i < riwayatTransaksi.length; i++) {
@@ -89,6 +29,7 @@ public class Nasabah {
                 break;
             }
         }
+        sortTransaksi();
     }
 
     public void kirimTransfer(int jumlah, Nasabah penerima) {
@@ -119,4 +60,45 @@ public class Nasabah {
     public void unblokirKartu() {
         this.diblokir = false;
     }
+
+    // Sort Tanggal Transaksi (Selection Sort)
+    public void sortTransaksi() {
+        int n = 0;
+        for (int i = 0; i < riwayatTransaksi.length; i++) {
+            if (riwayatTransaksi[i] != null) {
+                n++;
+            }
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int idx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (compareTanggal(riwayatTransaksi[j], riwayatTransaksi[idx])) {
+                    idx = j;
+                }
+            }
+            InfoTransaksi temp = riwayatTransaksi[i];
+            riwayatTransaksi[i] = riwayatTransaksi[idx];
+            riwayatTransaksi[idx] = temp;
+        }
+    }
+
+    public boolean compareTanggal(InfoTransaksi transaksi1, InfoTransaksi transaksi2) {
+        int tahun1 = transaksi1.tahun;
+        int bulan1 = transaksi1.bulan;
+        int tanggal1 = transaksi1.tanggal;
+
+        int tahun2 = transaksi2.tahun;
+        int bulan2 = transaksi2.bulan;
+        int tanggal2 = transaksi2.tanggal;
+
+        if (tahun1 != tahun2) {
+            return tahun1 > tahun2;
+        } else if (bulan1 != bulan2) {
+            return bulan1 > bulan2;
+        } else {
+            return tanggal1 > tanggal2;
+        }
+    }
+
 }

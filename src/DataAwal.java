@@ -17,15 +17,14 @@ public class DataAwal {
         SistemATM.dataNasabah[1] = Budi;
         SistemATM.dataNasabah[2] = Citra;
 
-        Anto.tambahTransaksi(new InfoTransaksi(1000000, BCA, "Setor Tunai", null, 10, 1, 2024));
-        Anto.tambahTransaksi(new InfoTransaksi(500000, Mandiri, "Transfer", Budi, 12, 12, 2024));
-        Anto.tambahTransaksi(new InfoTransaksi(-500000, Mandiri, "Transfer", Citra, 12, 12, 2024));
+        Anto.tambahTransaksi(new InfoTransaksi(500000, Mandiri, "Transfer", Budi, 12, 12, 2025));
+        Anto.tambahTransaksi(new InfoTransaksi(-500000, Mandiri, "Transfer", Citra, 12, 12, 2025));
+        Anto.tambahTransaksi(new InfoTransaksi(-2000000, BCA, "Tarik Tunai", null, 19, 1, 2025));
 
-        Budi.tambahTransaksi(new InfoTransaksi(-500000, Mandiri, "Transfer", Anto, 12, 12, 2024));
-        Budi.tambahTransaksi(new InfoTransaksi(-300000, Mandiri, "Tarik Tunai", null, 13, 6, 2024));
+        Budi.tambahTransaksi(new InfoTransaksi(-500000, Mandiri, "Transfer", Anto, 12, 12, 2025));
+        Budi.tambahTransaksi(new InfoTransaksi(-300000, Mandiri, "Tarik Tunai", null, 13, 6, 2025));
 
-        Citra.tambahTransaksi(new InfoTransaksi(1500000, BNI, "Setor Tunai", null, 14, 5, 2024));
-        Citra.tambahTransaksi(new InfoTransaksi(-2000000, BNI, "Tarik Tunai", null, 15, 10, 2024));
-        Citra.tambahTransaksi(new InfoTransaksi(500000, BNI, "Transfer", Anto, 12, 12, 2024));
+        Citra.tambahTransaksi(new InfoTransaksi(-2000000, BNI, "Tarik Tunai", null, 15, 10, 2025));
+        Citra.tambahTransaksi(new InfoTransaksi(500000, BNI, "Transfer", Anto, 12, 12, 2025));
     }
 }
