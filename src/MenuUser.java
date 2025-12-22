@@ -226,7 +226,8 @@ public class MenuUser {
                     max_widthjenisTransaksi = transaksi.jenisTransaksi.length();
                 }
                 if (String.valueOf(transaksi.nominal).length() > max_widthnominal) {
-                    max_widthnominal = String.valueOf(transaksi.nominal).length();
+                    max_widthnominal = String.valueOf(transaksi.nominal).length()
+                            + ((int) Math.log10(nasabah.saldo) / 3) + 2;
                 }
                 if (transaksi.bank.nama.length() > max_widthBank) {
                     max_widthBank = transaksi.bank.nama.length();
@@ -240,7 +241,7 @@ public class MenuUser {
             }
         }
         max_widthjenisTransaksi += 2;
-        max_widthnominal += 2;
+        max_widthnominal += 4;
         max_widthBank += 2;
         max_nasabahTarget += 2;
         max_widthtanggal += 2;
