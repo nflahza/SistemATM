@@ -1,5 +1,5 @@
 # SistemATM
-Tugas Besar Algoritma Pemprograman SE-49-04 Kelompok 13
+Tugas Besar Algoritma Pemprograman SE-49-04 Kelompok 12
 
 # Team
 ![Team](https://github.com/nflahza/SistemATM/blob/main/team.png?raw=true)
@@ -11,5 +11,5 @@ Tugas Besar Algoritma Pemprograman SE-49-04 Kelompok 13
 - [x] Tampikan data nasabah, saldo terkini dan Riwayat transaksi
 - [x] (opsional) Pengguna dapat penginputkan PIN max 3 kali, lalu dapat bertransaksi, transfer atau pembayaran lainnya.
 
-# Statistics
+# Statistik
 - 1096 Total Baris Kode
