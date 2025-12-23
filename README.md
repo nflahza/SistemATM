@@ -1,5 +1,5 @@
 # SistemATM
-Tugas Besar Algoritma Pemprograman SE-49-04 Kelompok 12
+Tugas Besar Algoritma Pemrograman SE-49-04 Kelompok 12
 
 # Team
 ![Team](https://github.com/nflahza/SistemATM/blob/main/team.png?raw=true)

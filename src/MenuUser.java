@@ -142,8 +142,7 @@ public class MenuUser {
     }
 
     public static void cekSaldo(Nasabah nasabah) {
-        System.out.println("Saldo Anda Saat Ini: " + nasabah.saldo);
-        System.out.println("");
+        System.out.printf("Saldo Anda Saat Ini: %,.2f \n", nasabah.saldo);
         userMenu(new Scanner(System.in), nasabah);
     }
 
@@ -152,18 +151,7 @@ public class MenuUser {
             System.out.print("Masukkan PIN Lama: ");
 
             int pinLama = input.nextInt();
-            // if (nasabah.getPin() != pinLama) {
-            // System.out.println("Pin Lama Salah, Silahkan Coba Lagi");
-            // pinLama = input.nextInt();
-            // } else if (pinLama < 100000 || pinLama > 999999) {
-            // System.out.println("Pin Harus 6 Digit, Silahkan Coba Lagi");
-            // System.out.print("Masukkan PIN Lama: ");
-            // pinLama = input.nextInt();
-            // } else if (pinLama == -1) {
-            // System.out.println("");
-            // userMenu(new Scanner(System.in), nasabah);
-            // return;
-            // }
+
             while (pinLama != nasabah.pin && pinLama != -1) {
                 System.out.println("Pin Lama Salah, Silahkan Coba Lagi");
                 System.out.print("Masukkan PIN Lama: ");

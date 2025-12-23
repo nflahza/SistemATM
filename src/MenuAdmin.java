@@ -216,11 +216,7 @@ public class MenuAdmin {
                         System.out.print("Masukkan Bank Baru -> ");
                         String namaBankBaru = input.nextLine();
                         Bank bankBaru = SearchData.cariBankByNama(namaBankBaru);
-                        if (bankBaru != null) {
-                            nasabahDitemukan.bank = bankBaru;
-                        } else {
-                            System.out.println("Bank tidak Ditemukan");
-                        }
+                        nasabahDitemukan.bank = bankBaru;
                         break;
                     case 4:
                         System.out.print("Masukkan Saldo Baru -> ");
@@ -235,9 +231,9 @@ public class MenuAdmin {
                     case 6:
                         System.out.print("Masukkan Pin Baru -> ");
                         int pinBaru = input.nextInt();
-                        if (pinBaru < 100000 || pinBaru > 999999) {
+                        while (pinBaru < 100000 || pinBaru > 999999) {
                             System.out.println("Pin harus 6 digit");
-                            break;
+                            pinBaru = input.nextInt();
                         }
                         nasabahDitemukan.pin = pinBaru;
                         break;
@@ -266,6 +262,9 @@ public class MenuAdmin {
                 System.out.println("Nasabah Dengan Nomor Rekening Tersebut Tidak Ditemukan");
             }
 
+        } catch (NullPointerException e) {
+            System.out.println("Data Tidak Ditemukan");
+            adminMenu(new Scanner(System.in));
         } catch (Exception e) {
             System.out.println("Input Tidak Valid, Silahkan Coba Lagi");
             adminMenu(new Scanner(System.in));
@@ -302,6 +301,7 @@ public class MenuAdmin {
             int pin = input.nextInt();
             while (pin < 100000 || pin > 999999) {
                 System.out.println("PIN harus 6 digit, silahkan coba lagi");
+                System.out.print("Masukkan PIN Nasabah -> ");
                 pin = input.nextInt();
 
             }
