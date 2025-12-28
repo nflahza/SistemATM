@@ -282,21 +282,15 @@ public class MenuAdmin {
             }
             System.out.print("Masukkan Nomor Rekening Nasabah -> ");
 
-            long nomorRekening = Long.parseLong(input.next());
+            long nomorRekening = input.nextLong();
             System.out.print("Masukkan Nama Bank Nasabah -> ");
-            input.nextLine(); // Clear buffer
+            input.nextLine();
             String namaBank = input.nextLine();
             Bank bank = SearchData.cariBankByNama(namaBank);
-            while (bank == null) {
-                System.out.println("Bank Tidak Ditemukan, Silahkan Coba Lagi");
-                System.out.print("Masukkan Nama Bank Nasabah -> ");
-                namaBank = input.nextLine();
-                bank = SearchData.cariBankByNama(namaBank);
-            }
             System.out.print("Masukkan Saldo Awal Nasabah -> ");
             double saldo = input.nextDouble();
             System.out.print("Masukkan Nomor Kartu Nasabah -> ");
-            long nomorKartu = Long.parseLong(input.next());
+            long nomorKartu = input.nextLong();
             System.out.print("Masukkan PIN Nasabah -> ");
             int pin = input.nextInt();
             while (pin < 100000 || pin > 999999) {
@@ -308,9 +302,6 @@ public class MenuAdmin {
 
             Nasabah nasabahBaru = new Nasabah(nama, nomorRekening, bank, saldo, nomorKartu, pin, false);
             Nasabah[] dataNasabah = SistemATM.dataNasabah;
-            // dataNasabah[dataNasabah.length] = nasabahBaru;
-            // System.out.println("\n" + "Data Nasabah Berhasil Ditambahkan");
-            // System.out.println("");
 
             for (int i = 0; i < dataNasabah.length; i++) {
                 if (dataNasabah[i] == null) {

@@ -91,7 +91,7 @@ public class SistemATM {
                     attempts++;
                     if (attempts == 3) {
                         System.out.println("Akses Ditolak, Kartu Anda Telah Diblokir\n");
-                        nasabah.blokirKartu();
+                        nasabah.diblokir = true;
                         startMenuATM(input);
                         return;
                     }

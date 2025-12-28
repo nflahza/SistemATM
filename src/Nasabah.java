@@ -32,35 +32,6 @@ public class Nasabah {
         sortTransaksi();
     }
 
-    public void kirimTransfer(int jumlah, Nasabah penerima) {
-        if (saldo >= jumlah) {
-            this.saldo -= jumlah;
-            penerima.saldo += jumlah;
-        } else {
-            System.out.println("Saldo anda tidak cukup!");
-        }
-    }
-
-    public void tarikTunai(int jumlah) {
-        if (saldo >= jumlah) {
-            this.saldo -= jumlah;
-        } else {
-            System.out.println("Saldo anda tidak cukup!");
-        }
-    }
-
-    public void editPIN(int pinBaru) {
-        this.pin = pinBaru;
-    }
-
-    public void blokirKartu() {
-        this.diblokir = true;
-    }
-
-    public void unblokirKartu() {
-        this.diblokir = false;
-    }
-
     // Sort Tanggal Transaksi (Selection Sort)
     public void sortTransaksi() {
         int n = 0;

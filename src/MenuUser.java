@@ -74,16 +74,14 @@ public class MenuUser {
 
             Nasabah nasabahTujuan = SearchData.cariNasabahByRekening(nomorRekeningTujuan);
 
-            while (nasabahTujuan == null) {
-                System.out.println("Nomor Rekening Tujuan Tidak Ditemukan");
-                System.out.print("Masukkan Nomor Rekening Tujuan: ");
-                nomorRekeningTujuan = input.nextLong();
-                if (nomorRekeningTujuan == -1) {
-                    userMenu(new Scanner(System.in), nasabah);
-                    return;
-                }
-                nasabahTujuan = SearchData.cariNasabahByRekening(nomorRekeningTujuan);
+            System.out.println("Nomor Rekening Tujuan Tidak Ditemukan");
+            System.out.print("Masukkan Nomor Rekening Tujuan: ");
+            nomorRekeningTujuan = input.nextLong();
+            if (nomorRekeningTujuan == -1) {
+                userMenu(new Scanner(System.in), nasabah);
+                return;
             }
+            nasabahTujuan = SearchData.cariNasabahByRekening(nomorRekeningTujuan);
 
             System.out.print("Masukkan Jumlah Transfer: ");
             double jumlahTransfer = input.nextDouble();
@@ -98,7 +96,7 @@ public class MenuUser {
 
                 System.out.println("");
                 System.out.println("Transfer Berhasil!");
-                System.out.println("Sisa Saldo: " + nasabah.saldo);
+                System.out.printf("Sisa Saldo: %,.2f \n", nasabah.saldo);
             } else if (jumlahTransfer <= 0) {
                 System.out.println("Jumlah Transfer Harus Positif");
             } else {
@@ -125,7 +123,7 @@ public class MenuUser {
                 nasabah.saldo -= jumlahPenarikan;
                 System.out.println("");
                 System.out.println("Penarikan Berhasil!");
-                System.out.println("Sisa Saldo: " + nasabah.saldo);
+                System.out.printf("Sisa Saldo: %,.2f \n", nasabah.saldo);
                 nasabah.tambahTransaksi(new InfoTransaksi(-jumlahPenarikan, nasabah.bank, "Tarik Tunai", null,
                         SistemATM.tanggal, SistemATM.bulan, SistemATM.tahun));
                 System.out.println("");
@@ -191,17 +189,6 @@ public class MenuUser {
     }
 
     public static void riwayatTransaksi(Nasabah nasabah) {
-        // System.out.println("Riwayat Transaksi Anda: ");
-        // for (InfoTransaksi transaksi : nasabah.riwayatTransaksi) {
-        // if (transaksi != null) {
-        // System.out.println("- " + transaksi.jenisTransaksi + " sebesar " +
-        // transaksi.nominal + " di "
-        // + transaksi.bank.getNama() + " ");
-        // }
-        // }
-
-        // System.out.println("");
-
         int max_widthjenisTransaksi = 14;
         int max_widthnominal = 16;
         int max_widthBank = 6;
